@@ -7,7 +7,7 @@ Faster html entities library.
 Installation
 ------------
 
-    npm install git://github.com/mdevils/node-html-entities.git
+    npm install html-entities
 
 Usage
 -----
