@@ -1,0 +1,28 @@
+{
+  "name": "html-entities",
+  "version": "1.0.0",
+  "description": "Faster HTML entities encode/decode library.",
+  "keywords": [
+    "html",
+    "html entities",
+    "html entities encode",
+    "html entities decode",
+    "entities",
+    "entities encode",
+    "entities decode"
+  ],
+  "author": {
+    "name": "Marat Dulin",
+    "email": "mdevils@yandex.ru"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdevils/node-html-entities.git"
+  },
+  "main": "index",
+  "engines": [
+    "node >= 0.4.0"
+  ],
+  "license": "MIT"
+}
