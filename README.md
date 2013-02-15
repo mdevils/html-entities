@@ -29,10 +29,10 @@ console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&copy;&reg
 
 
 ```javascript
-  var Entities = require('html-entities').FullHtmlEntities;
+var Entities = require('html-entities').FullHtmlEntities;
 
-  entities = new Entities();
-  
-  console.log(entities.encode('<>"&©®')); // &lt;&gt;&quot;&amp;&copy;&reg;
-  console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&©®
+entities = new Entities();
+
+console.log(entities.encode('<>"&©®')); // &lt;&gt;&quot;&amp;&copy;&reg;
+console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&©®
 ```
