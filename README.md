@@ -16,7 +16,6 @@ Usage
 
 HTML validity and XSS attack prevention you can achieve from BasicHtmlEntities class.
 
-#####Example#####
 ```javascript
 var Entities = require('html-entities').BasicHtmlEntities;
 
