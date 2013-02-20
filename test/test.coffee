@@ -8,11 +8,11 @@ assertEquals = (str, expr) ->
     throw Error("Assertion failed: '#{expr}' should equal to '#{str}'.")
 
 xmlEntities = new XmlEntities();
-assertEquals '&lt;&gt;&quot;&amp;', xmlEntities.encode('<>"&')
+assertEquals '&lt;&gt;&quot;&amp;&apos;', xmlEntities.encode('<>"&\'')
 assertEquals '&lt;&gt;&quot;&amp;©', xmlEntities.encode('<>"&©')
 assertEquals '&lt;&gt;&quot;&amp;&#169;&#174;', xmlEntities.encodeNonUTF('<>"&©®')
-assertEquals '<>"&', xmlEntities.decode('&lt;&gt;&quot;&amp;')
-assertEquals '<>"&', xmlEntities.decode('&LT;&GT;&QUOT;&AMP;')
+assertEquals '<>"&\'', xmlEntities.decode('&lt;&gt;&quot;&amp;&apos;')
+assertEquals '<>"&\'', xmlEntities.decode('&LT;&GT;&QUOT;&AMP;&APOS;')
 assertEquals '<>"&©', xmlEntities.decode('&lt;&gt;&quot;&amp;©')
 assertEquals '<>"&©', xmlEntities.decode('&lt;&gt;&quot;&amp;©')
 assertEquals '<>"&∆', xmlEntities.decode('&lt;&gt;&quot;&amp;&copy;&#8710;')
