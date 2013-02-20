@@ -13,7 +13,10 @@ class FullHtmlEntities
   decode: (str) ->
     str.replace /&(#?[\w\d]+);/g, (s, entity) ->
       if entity.charAt(0) == "#"
-        code = parseInt(entity.substr(1))
+        if entity.charAt(1).toLowerCase() == 'x'
+          code = parseInt(entity.substr(2), 16)
+        else
+          code = parseInt(entity.substr(1))
       else
         code = FullHtmlEntities.alphaIndex[entity]
       if code == undefined || isNaN(code) || code < -32768 || code > 65535
