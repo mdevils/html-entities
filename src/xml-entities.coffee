@@ -38,15 +38,17 @@ class exports.XmlEntities
   decode: (str) ->
     return '' if str.length == 0
     str
-      .replace(/&[a-zA-Z0-9]+;?/g, (s, ent) -> if a = alphaIndex[s] then a else '')
-      .replace /&#[0-9a-fx]+;?/g, (s) ->
-        if s.charAt(2).toLowerCase() == 'x'
-          code = parseInt(s.substr(3), 16)
+      .replace /&#?[0-9a-zA-Z]+;?/g, (s) ->
+        if s.charAt(1) == '#'
+          if s.charAt(2).toLowerCase() == 'x'
+            code = parseInt(s.substr(3), 16)
+          else
+            code = parseInt(s.substr(2))
+          if isNaN(code) || code < -32768 || code > 65535
+            return ''
+          return String.fromCharCode(code)
         else
-          code = parseInt(s.substr(2))
-        if isNaN(code) || code < -32768 || code > 65535
-          return ''
-        return String.fromCharCode(code)
+          return if a = alphaIndex[s] then a else ''
   encodeNonUTF: (str) ->
     return '' if str.length == 0
     result = ''
