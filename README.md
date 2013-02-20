@@ -23,7 +23,7 @@ entities = new Entities();
 
 console.log(entities.encode('<>"&©®')); // &lt;&gt;&quot;&amp;©®
 console.log(entities.encodeNonUTF('<>"&©®')); // &lt;&gt;&quot;&amp;&#169;&#174;
-console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&
+console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;&#8710;')); // <>"&∆
 ```
 
 ####All HTML entities encoding/decoding####

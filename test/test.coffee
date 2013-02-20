@@ -15,7 +15,7 @@ assertEquals '<>"&', xmlEntities.decode('&lt;&gt;&quot;&amp;')
 assertEquals '<>"&', xmlEntities.decode('&LT;&GT;&QUOT;&AMP;')
 assertEquals '<>"&©', xmlEntities.decode('&lt;&gt;&quot;&amp;©')
 assertEquals '<>"&©', xmlEntities.decode('&lt;&gt;&quot;&amp;©')
-assertEquals '<>"&', xmlEntities.decode('&lt;&gt;&quot;&amp;&copy;')
+assertEquals '<>"&∆', xmlEntities.decode('&lt;&gt;&quot;&amp;&copy;&#8710;')
 
 html4Entities = new Html4Entities();
 assertEquals '&lt;&gt;&quot;&amp;', html4Entities.encode('<>"&')
