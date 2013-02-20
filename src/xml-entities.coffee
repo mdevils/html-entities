@@ -5,6 +5,12 @@ class exports.XmlEntities
     'quot': '"'
     'apos': '\''
     'amp': '&'
+  charIndex =
+    60: 'lt'
+    62: 'gt'
+    34: 'quot'
+    39: 'apos'
+    38: 'amp'
   encode: (str) ->
     str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
   decode: (str) ->
@@ -21,3 +27,19 @@ class exports.XmlEntities
       else
         char = alphaIndex[entity] || alphaIndex[entity.toLowerCase()]
       return if char == undefined then "" else char
+  encodeNonUTF: (str) ->
+    result = ''
+    l = str.length
+    i = 0
+    while i < l
+      c = str.charCodeAt(i)
+      if alpha = charIndex[c]
+        result +=  "&#{alpha};"
+        i++
+        continue;
+      if c < 32 || c > 126
+        result += '&#' + c + ';'
+      else
+        result += str.charAt(i)
+      i++
+    result

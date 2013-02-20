@@ -34,7 +34,6 @@ class Html5Entities
       return if char == undefined then "" else char
   encode: (str) ->
     result = ''
-    index = charIndex
     l = str.length
     i = 0
     while i < l
@@ -44,8 +43,30 @@ class Html5Entities
           i++
         else
           alpha = charInfo['']
-
-        result += "&#{alpha};"
+        if alpha
+          result +=  "&#{alpha};"
+          i++
+          continue;
+      result += str.charAt(i)
+      i++
+    result
+  encodeNonUTF: (str) ->
+    result = ''
+    l = str.length
+    i = 0
+    while i < l
+      c = str.charCodeAt(i)
+      if charInfo = charIndex[c]
+        if alpha = charInfo[str.charCodeAt(i + 1)]
+          i++
+        else
+          alpha = charInfo['']
+        if alpha
+          result +=  "&#{alpha};"
+          i++
+          continue;
+      if c < 32 || c > 126
+        result += '&#' + c + ';'
       else
         result += str.charAt(i)
       i++
