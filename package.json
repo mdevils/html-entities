@@ -16,6 +16,9 @@
     "email": "mdevils@yandex.ru"
   },
   "dependencies": {},
+  "devDependencies": {
+    "colors": "*"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mdevils/node-html-entities.git"
