@@ -3,3 +3,6 @@ make:
 
 test:: make
 	coffee test/test.coffee
+
+benchmark:: make
+	coffee benchmark/benchmark.coffee

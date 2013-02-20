@@ -9,16 +9,18 @@ class Html5Entities
       alpha = e[0]
       chars = e[1]
       chr = chars[0]
-      charInfo = (charIndex[chr] = charIndex[chr] || {})
+      addChar = (chr < 32 || chr > 126) || chr == 62 || chr == 60 || chr == 38 || chr == 34 || chr == 39
+      addChar && (charInfo = (charIndex[chr] = charIndex[chr] || {}))
       if chars[1]
         chr2 = chars[1]
         alphaIndex[alpha] = String.fromCharCode(chr) + String.fromCharCode(chr2)
-        charInfo[chr2] = alpha
+        addChar && (charInfo[chr2] = alpha)
       else
         alphaIndex[alpha] = String.fromCharCode(chr)
-        charInfo[''] = alpha
+        addChar && (charInfo[''] = alpha)
   )()
   decode: (str) ->
+    return '' if str.length == 0
     str.replace /&(#?[\w\d]+);?/g, (s, entity) ->
       if entity.charAt(0) == "#"
         if entity.charAt(1) == 'x'
@@ -30,9 +32,10 @@ class Html5Entities
         else
           char = String.fromCharCode(code)
       else
-        char = alphaIndex[entity] || alphaIndex[entity.toLowerCase()]
+        char = alphaIndex[entity]
       return if char == undefined then "" else char
   encode: (str) ->
+    return '' if str.length == 0
     result = ''
     l = str.length
     i = 0
@@ -51,6 +54,7 @@ class Html5Entities
       i++
     result
   encodeNonUTF: (str) ->
+    return '' if str.length == 0
     result = ''
     l = str.length
     i = 0

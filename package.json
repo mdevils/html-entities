@@ -1,6 +1,6 @@
 {
   "name": "html-entities",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Faster HTML entities encode/decode library.",
   "keywords": [
     "html",
@@ -17,7 +17,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "colors": "*"
+    "colors": "*",
+    "node-html-encoder": "*",
+    "entities": "*"
   },
   "repository": {
     "type": "git",

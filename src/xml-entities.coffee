@@ -1,33 +1,54 @@
 class exports.XmlEntities
   alphaIndex =
-    'lt': '<'
-    'gt': '>'
-    'quot': '"'
-    'apos': '\''
-    'amp': '&'
+    '&lt': '<'
+    '&LT': '<'
+    '&gt': '>'
+    '&GT': '>'
+    '&quot': '"'
+    '&QUOT': '"'
+    '&apos': '\''
+    '&APOS': '\''
+    '&amp': '&'
+    '&AMP': '&'
+    '&lt;': '<'
+    '&LT;': '<'
+    '&gt;': '>'
+    '&GT;': '>'
+    '&quot;': '"'
+    '&QUOT;': '"'
+    '&apos;': '\''
+    '&APOS;': '\''
+    '&amp;': '&'
+    '&AMP;': '&'
   charIndex =
     60: 'lt'
     62: 'gt'
     34: 'quot'
     39: 'apos'
     38: 'amp'
+  charSIndex =
+    '<': '&lt;'
+    '>': '&gt;'
+    '"': '&quot;'
+    '\'': '&apos;'
+    '&': '&amp;'
   encode: (str) ->
-    str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+    return '' if str.length == 0
+    str.replace /<|>|"|'|&/g, (s) -> charSIndex[s]
   decode: (str) ->
-    str.replace /&(#?[\w\d]+);?/g, (s, entity) ->
-      if entity.charAt(0) == "#"
-        if entity.charAt(1) == 'x'
-          code = parseInt(entity.substr(2).toLowerCase(), 16)
+    return '' if str.length == 0
+    str
+      .replace(/&[a-zA-Z0-9]+;?/g, (s, ent) -> if a = alphaIndex[s] then a else '')
+      .replace /&#[0-9a-fx]+;?/g, (s) ->
+        if s.charAt(2).toLowerCase() == 'x'
+          code = parseInt(s.substr(3), 16)
         else
-          code = parseInt(entity.substr(1))
+          code = parseInt(s.substr(2))
         if isNaN(code) || code < -32768 || code > 65535
-          char = ''
-        else
-          char = String.fromCharCode(code)
-      else
-        char = alphaIndex[entity] || alphaIndex[entity.toLowerCase()]
-      return if char == undefined then "" else char
+          return ''
+        return String.fromCharCode(code)
   encodeNonUTF: (str) ->
+    return '' if str.length == 0
     result = ''
     l = str.length
     i = 0

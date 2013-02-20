@@ -1,7 +1,7 @@
 node-html-entities
 ==================
 
-Faster html entities library.
+Fast html entities library.
 
 
 Installation
@@ -12,7 +12,7 @@ Installation
 Usage
 -----
 
-####Basic HTML entities####
+####XML entities####
 
 HTML validity and XSS attack prevention you can achieve from XmlEntities class.
 
@@ -46,5 +46,10 @@ var XmlEntities = require('html-entities').XmlEntities, // <>"'& + &#...; decodi
     Html4Entities = require('html-entities').Html4Entities, // HTML4 entities.
     Html5Entities = require('html-entities').Html5Entities, // HTML5 entities.
     AllHtmlEntities = require('html-entities').AllHtmlEntities; // Synonym for HTML5 entities.
-
 ```
+
+Supports three methods for every class:
+
+* encode — encodes, replacing characters to its entity representations. Ignores UTF characters with no entity representation.
+* encodeNonUTF — encodes, replacing characters to its entity representations. Inserts numeric entities for UTF characters.
+* decode — decodes, replacing entities to characters. Unknown entities are removed.
