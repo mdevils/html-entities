@@ -1,4 +1,6 @@
 module.exports = {
-  BasicHtmlEntities: require('./lib/basic-html-entities.js').BasicHtmlEntities,
-  FullHtmlEntities: require('./lib/full-html-entities.js').FullHtmlEntities
+  XmlEntities: require('./lib/xml-entities.js').XmlEntities,
+  Html4Entities: require('./lib/html4-entities.js').Html4Entities,
+  Html5Entities: require('./lib/html5-entities.js').Html5Entities,
+  AllHtmlEntities: require('./lib/html5-entities.js').Html5Entities
 };
