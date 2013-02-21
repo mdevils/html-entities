@@ -7,23 +7,25 @@ class Html4Entities
   while i < l
     a = htmlAlpha[i]
     c = htmlCodes[i]
-    alphaIndex[a] = c
+    alphaIndex[a] = String.fromCharCode(c)
     numIndex[c] = a
     i++
   decode: (str) ->
     return '' if str.length == 0
     str.replace /&(#?[\w\d]+);?/g, (s, entity) ->
+      chr = ''
       if entity.charAt(0) == "#"
         if entity.charAt(1).toLowerCase() == 'x'
           code = parseInt(entity.substr(2), 16)
         else
           code = parseInt(entity.substr(1))
+        if isNaN(code) || code < -32768 || code > 65535
+          chr = ''
+        else
+          chr = String.fromCharCode(code)
       else
-        code = alphaIndex[entity] || alphaIndex[entity.toLowerCase()]
-      if code == undefined || isNaN(code) || code < -32768 || code > 65535
-        return ""
-      else
-        return String.fromCharCode(code)
+        chr = alphaIndex[entity]
+      return if chr == undefined then s else chr
   encode: (str) ->
     return '' if str.length == 0
     result = ''

@@ -1,6 +1,6 @@
 {
   "name": "html-entities",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Faster HTML entities encode/decode library.",
   "keywords": [
     "html",

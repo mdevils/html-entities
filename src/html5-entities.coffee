@@ -33,7 +33,7 @@ class Html5Entities
           char = String.fromCharCode(code)
       else
         char = alphaIndex[entity]
-      return if char == undefined then "" else char
+      return if char == undefined then s else char
   encode: (str) ->
     return '' if str.length == 0
     result = ''

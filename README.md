@@ -52,4 +52,4 @@ Supports three methods for every class:
 
 * encode — encodes, replacing characters to its entity representations. Ignores UTF characters with no entity representation.
 * encodeNonUTF — encodes, replacing characters to its entity representations. Inserts numeric entities for UTF characters.
-* decode — decodes, replacing entities to characters. Unknown entities are removed.
+* decode — decodes, replacing entities to characters. Unknown entities are left as is.

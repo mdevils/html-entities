@@ -1,25 +1,15 @@
 class exports.XmlEntities
   alphaIndex =
     '&lt': '<'
-    '&LT': '<'
     '&gt': '>'
-    '&GT': '>'
     '&quot': '"'
-    '&QUOT': '"'
     '&apos': '\''
-    '&APOS': '\''
     '&amp': '&'
-    '&AMP': '&'
     '&lt;': '<'
-    '&LT;': '<'
     '&gt;': '>'
-    '&GT;': '>'
     '&quot;': '"'
-    '&QUOT;': '"'
     '&apos;': '\''
-    '&APOS;': '\''
     '&amp;': '&'
-    '&AMP;': '&'
   charIndex =
     60: 'lt'
     62: 'gt'
@@ -48,7 +38,7 @@ class exports.XmlEntities
             return ''
           return String.fromCharCode(code)
         else
-          return if a = alphaIndex[s] then a else ''
+          return if a = alphaIndex[s] then a else s
   encodeNonUTF: (str) ->
     return '' if str.length == 0
     result = ''
