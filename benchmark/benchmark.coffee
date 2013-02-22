@@ -17,7 +17,7 @@ benchmark = (name, tests) ->
       cb()
       i++
     time = (new Date()) - start
-    console.log '    ' + testName + ': ' + time + 'ms, ' + (Math.round(c/time)) + 'op/sec'
+    console.log '    ' + testName + ': ' + time + 'ms, ' + (Math.round(c/time)) + 'op/msec'
   console.log ''
 
 xmlEntities = new XmlEntities
