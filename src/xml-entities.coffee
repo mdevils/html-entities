@@ -16,6 +16,7 @@ class exports.XmlEntities
     '&aring;': 'å'
     '&auml;': 'ä'
     '&ouml;': 'ö'
+    '&middot;': '·'
 
   charIndex =
     60: 'lt'
@@ -29,6 +30,7 @@ class exports.XmlEntities
     228: 'auml'
     229: 'aring'
     246: 'ouml'
+    183: 'middot'
 
   charSIndex =
     '<': '&lt;'
@@ -42,6 +44,7 @@ class exports.XmlEntities
     'ä': '&auml;'
     'Ö': '&Ouml;'
     'ö': '&ouml;'
+    '·': '&middot;'
 
   encode: (str) ->
     return '' if str.length == 0
