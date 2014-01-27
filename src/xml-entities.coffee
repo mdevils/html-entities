@@ -9,19 +9,43 @@ class exports.XmlEntities
     '&gt;': '>'
     '&quot;': '"'
     '&apos;': '\''
-    '&amp;': '&'
+    '&amp;': '&',
+    '&Aring;': 'Å'
+    '&Auml;': 'Ä'
+    '&Ouml;': 'Ö'
+    '&aring;': 'å'
+    '&auml;': 'ä'
+    '&ouml;': 'ö'
+    '&middot;': '·'
+
   charIndex =
     60: 'lt'
     62: 'gt'
     34: 'quot'
     39: 'apos'
     38: 'amp'
+    196: 'Auml'
+    197: 'Aring'
+    214: 'Ouml'
+    228: 'auml'
+    229: 'aring'
+    246: 'ouml'
+    183: 'middot'
+
   charSIndex =
     '<': '&lt;'
     '>': '&gt;'
     '"': '&quot;'
     '\'': '&apos;'
     '&': '&amp;'
+    'Å': '&Aring;'
+    'å': '&aring;'
+    'Ä': '&Auml;'
+    'ä': '&auml;'
+    'Ö': '&Ouml;'
+    'ö': '&ouml;'
+    '·': '&middot;'
+
   encode: (str) ->
     return '' if str.length == 0
     str.replace /<|>|"|'|&/g, (s) -> charSIndex[s]
