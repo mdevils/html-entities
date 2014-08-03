@@ -50,8 +50,9 @@ var XmlEntities = require('html-entities').XmlEntities, // <>"'& + &#...; decodi
     AllHtmlEntities = require('html-entities').AllHtmlEntities; // Synonym for HTML5 entities.
 ```
 
-Supports three methods for every class:
+Supports four methods for every class:
 
 * encode — encodes, replacing characters to its entity representations. Ignores UTF characters with no entity representation.
 * encodeNonUTF — encodes, replacing characters to its entity representations. Inserts numeric entities for UTF characters.
+* encodeNonASCII — encodes, replacing only non-ASCII characters to its numeric entity representations.
 * decode — decodes, replacing entities to characters. Unknown entities are left as is.
