@@ -75,5 +75,17 @@ class Html5Entities
         result += str.charAt(i)
       i++
     result
+  encodeNonASCII: (str) ->
+    return '' if str.length == 0
+    result = ''
+    l = str.length
+    i = 0
+    while i < l
+      c = str.charCodeAt(i)
+      if c <= 255
+        result += str[i]
+        continue;
+      result += '&#' + c + ';'
+    result
 
 exports.Html5Entities = Html5Entities
