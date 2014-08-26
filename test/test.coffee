@@ -23,7 +23,7 @@ html4Entities = new Html4Entities();
 assertEquals '&lt;&gt;&quot;&amp;', html4Entities.encode('<>"&')
 assertEquals '&lt;&gt;&quot;&amp;&copy;', html4Entities.encode('<>"&©')
 assertEquals '&lt;&gt;&quot;&amp;&copy;&#8710;', html4Entities.encodeNonUTF('<>"&©∆')
-assertEquals '<>"&©®', html4Entities.encodeNonASCII('<>"&©®')
+assertEquals '<>"&©®&#8710;', html4Entities.encodeNonASCII('<>"&©®∆')
 
 assertEquals '<>"&', html4Entities.decode('&lt;&gt;&quot;&amp;')
 assertEquals '<>"&&acE;©', html4Entities.decode('&lt;&gt;&quot;&amp;&acE;&copy;')
@@ -34,7 +34,7 @@ html5Entities = new Html5Entities();
 assertEquals '&lt;&gt;&quot;&amp;', html5Entities.encode('<>"&')
 assertEquals '&lt;&gt;&quot;&amp;&copy;', html5Entities.encode('<>"&©')
 assertEquals '&lt;&gt;&quot;&amp;&copy;&#8710;', html5Entities.encodeNonUTF('<>"&©∆')
-assertEquals '<>"&©®', html5Entities.encodeNonASCII('<>"&©®')
+assertEquals '<>"&©®&#8710;', html5Entities.encodeNonASCII('<>"&©®∆')
 
 assertEquals '≪>"&', html5Entities.decode('&Lt;&gt;&quot;&amp;')
 assertEquals '<>"&', html5Entities.decode('&lt;&gt;&quot;&amp;')
