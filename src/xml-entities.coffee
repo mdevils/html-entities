@@ -64,7 +64,8 @@ class exports.XmlEntities
     while i < l
       c = str.charCodeAt(i)
       if c <= 255
-        result += str[i]
+        result += str[i++]
         continue;
       result += '&#' + c + ';'
+      i++
     result
