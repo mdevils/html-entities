@@ -1,8 +1,5 @@
-make:
-	coffee -o lib -c src/*.coffee
+benchmark::
+	node benchmark/benchmark
 
-test:: make
-	coffee test/test.coffee
-
-benchmark:: make
-	coffee benchmark/benchmark.coffee
+test::
+	./node_modules/.bin/mocha --recursive -R spec ./test
