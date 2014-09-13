@@ -19,8 +19,10 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
+    "unit-coverage": "^3.0.1",
     "node-html-encoder": "*",
-    "entities": "*"
+    "entities": "*",
+    "coveralls": "^2.11.2"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,26 @@
   "main": "index",
   "engines": [
     "node >= 0.4.0"
+  ],
+  "unit-coverage": {
+    "common": [
+      "-s",
+      "lib/**/*.js",
+      "-t",
+      "test/**/*.js"
+    ]
+  },
+  "scripts": {
+    "test": "mocha --recursive -R spec test",
+    "benchmark": "node benchmark/benchmark",
+    "coverage": "unit-coverage run -p common",
+    "coverage-html": "unit-coverage run -p common -r html -o coverage.html",
+    "travis": "npm test && unit-coverage run -p common -r lcov -o coverage.lcov && cat coverage.lcov | coveralls"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "LICENSE"
   ],
   "license": "MIT"
 }
