@@ -11,6 +11,14 @@ describe('xml entities', function () {
         xmlEntities.encodeNonUTF('<>"&©®').should.equal('&lt;&gt;&quot;&amp;&#169;&#174;');
         xmlEntities.encodeNonASCII('').should.equal('');
         xmlEntities.encodeNonASCII('<>"&©®').should.equal('<>"&©®');
+
+        htmlEntities.XmlEntities.encode('').should.equal('');
+        htmlEntities.XmlEntities.encode('<>"&\'').should.equal('&lt;&gt;&quot;&amp;&apos;');
+        htmlEntities.XmlEntities.encode('<>"&©').should.equal('&lt;&gt;&quot;&amp;©');
+        htmlEntities.XmlEntities.encodeNonUTF('').should.equal('');
+        htmlEntities.XmlEntities.encodeNonUTF('<>"&©®').should.equal('&lt;&gt;&quot;&amp;&#169;&#174;');
+        htmlEntities.XmlEntities.encodeNonASCII('').should.equal('');
+        htmlEntities.XmlEntities.encodeNonASCII('<>"&©®').should.equal('<>"&©®');
     });
     it('should decode xml entities', function () {
         xmlEntities.decode('').should.equal('');
@@ -18,5 +26,11 @@ describe('xml entities', function () {
         xmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
         xmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
         xmlEntities.decode('&lt;&gt;&quot;&amp;&copy;&#8710;').should.equal('<>"&&copy;∆');
+
+        htmlEntities.XmlEntities.decode('').should.equal('');
+        htmlEntities.XmlEntities.decode('&lt;&gt;&quot;&amp;&apos;').should.equal('<>"&\'');
+        htmlEntities.XmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
+        htmlEntities.XmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
+        htmlEntities.XmlEntities.decode('&lt;&gt;&quot;&amp;&copy;&#8710;').should.equal('<>"&&copy;∆');
     });
 });
