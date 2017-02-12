@@ -36,7 +36,7 @@ console.log(entities.decode('&lt;&gt;&quot;&apos;&amp;&copy;&reg;&#8710;')); // 
 ```javascript
 var Entities = require('html-entities').AllHtmlEntities;
 
-entities = new Entities();
+var entities = new Entities();
 
 console.log(entities.encode('<>"&©®∆')); // &lt;&gt;&quot;&amp;&copy;&reg;∆
 console.log(entities.encodeNonUTF('<>"&©®∆')); // &lt;&gt;&quot;&amp;&copy;&reg;&#8710;
