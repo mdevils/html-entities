@@ -20,9 +20,9 @@ Usage
 HTML validity and XSS attack prevention you can achieve from XmlEntities class.
 
 ```javascript
-var Entities = require('html-entities').XmlEntities;
+const Entities = require('html-entities').XmlEntities;
 
-var entities = new Entities();
+const entities = new Entities();
 
 console.log(entities.encode('<>"\'&©®')); // &lt;&gt;&quot;&apos;&amp;©®
 console.log(entities.encodeNonUTF('<>"\'&©®')); // &lt;&gt;&quot;&apos;&amp;&#169;&#174;
@@ -34,9 +34,9 @@ console.log(entities.decode('&lt;&gt;&quot;&apos;&amp;&copy;&reg;&#8710;')); // 
 
 
 ```javascript
-var Entities = require('html-entities').AllHtmlEntities;
+const Entities = require('html-entities').AllHtmlEntities;
 
-var entities = new Entities();
+const entities = new Entities();
 
 console.log(entities.encode('<>"&©®∆')); // &lt;&gt;&quot;&amp;&copy;&reg;∆
 console.log(entities.encodeNonUTF('<>"&©®∆')); // &lt;&gt;&quot;&amp;&copy;&reg;&#8710;
@@ -47,10 +47,10 @@ console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&©®
 **Available classes**
 
 ```javascript
-var XmlEntities = require('html-entities').XmlEntities, // <>"'& + &#...; decoding
-    Html4Entities = require('html-entities').Html4Entities, // HTML4 entities.
-    Html5Entities = require('html-entities').Html5Entities, // HTML5 entities.
-    AllHtmlEntities = require('html-entities').AllHtmlEntities; // Synonym for HTML5 entities.
+const XmlEntities = require('html-entities').XmlEntities, // <>"'& + &#...; decoding
+      Html4Entities = require('html-entities').Html4Entities, // HTML4 entities.
+      Html5Entities = require('html-entities').Html5Entities, // HTML5 entities.
+      AllHtmlEntities = require('html-entities').AllHtmlEntities; // Synonym for HTML5 entities.
 ```
 
 Supports four methods for every class:
