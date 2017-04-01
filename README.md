@@ -15,7 +15,7 @@ Installation
 Usage
 -----
 
-####XML entities####
+**XML entities**
 
 HTML validity and XSS attack prevention you can achieve from XmlEntities class.
 
@@ -30,7 +30,7 @@ console.log(entities.encodeNonASCII('<>"\'&©®')); // <>"\'&©®
 console.log(entities.decode('&lt;&gt;&quot;&apos;&amp;&copy;&reg;&#8710;')); // <>"'&&copy;&reg;∆
 ```
 
-####All HTML entities encoding/decoding####
+**All HTML entities encoding/decoding**
 
 
 ```javascript
@@ -44,7 +44,7 @@ console.log(entities.encodeNonASCII('<>"&©®∆')); // <>"&©®&#8710;
 console.log(entities.decode('&lt;&gt;&quot;&amp;&copy;&reg;')); // <>"&©®
 ```
 
-####Available classes####
+**Available classes**
 
 ```javascript
 var XmlEntities = require('html-entities').XmlEntities, // <>"'& + &#...; decoding
