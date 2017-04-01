@@ -10,7 +10,9 @@ Fast html entities library.
 Installation
 ------------
 
-    npm install html-entities
+```bash
+$ npm install html-entities
+```
 
 Usage
 -----
