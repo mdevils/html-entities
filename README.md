@@ -22,7 +22,7 @@ HTML validity and XSS attack prevention you can achieve from XmlEntities class.
 ```javascript
 var Entities = require('html-entities').XmlEntities;
 
-entities = new Entities();
+var entities = new Entities();
 
 console.log(entities.encode('<>"\'&©®')); // &lt;&gt;&quot;&apos;&amp;©®
 console.log(entities.encodeNonUTF('<>"\'&©®')); // &lt;&gt;&quot;&apos;&amp;&#169;&#174;
