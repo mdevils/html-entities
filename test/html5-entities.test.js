@@ -5,6 +5,8 @@ var html5Entities = new htmlEntities.Html5Entities();
 describe('html5 entities', function () {
     it('should encode html5 entities', function () {
         html5Entities.encode('').should.equal('');
+        html5Entities.encode('\n').should.equal('&NewLine;');
+        html5Entities.encode('\t').should.equal('&Tab;');
         html5Entities.encode('<>"&').should.equal('&lt;&gt;&quot;&amp;');
         html5Entities.encode('<>"&©').should.equal('&lt;&gt;&quot;&amp;&copy;');
         html5Entities.encode('∾̳').should.equal('&acE;');
@@ -14,6 +16,8 @@ describe('html5 entities', function () {
         html5Entities.encodeNonASCII('<>"&©®∆').should.equal('<>"&©®&#8710;');
 
         htmlEntities.Html5Entities.encode('').should.equal('');
+        htmlEntities.Html5Entities.encode('\n').should.equal('&NewLine;');
+        htmlEntities.Html5Entities.encode('\t').should.equal('&Tab;');
         htmlEntities.Html5Entities.encode('<>"&').should.equal('&lt;&gt;&quot;&amp;');
         htmlEntities.Html5Entities.encode('<>"&©').should.equal('&lt;&gt;&quot;&amp;&copy;');
         htmlEntities.Html5Entities.encode('∾̳').should.equal('&acE;');
@@ -32,6 +36,8 @@ describe('html5 entities', function () {
         html5Entities.decode('&#60;&#x3C;&Aacute;&asdasd;').should.equal('<<Á&asdasd;');
         html5Entities.decode('&acE;').should.equal('∾̳');
         html5Entities.decode('&acE;x').should.equal('∾̳x');
+        html5Entities.decode('&NewLine;').should.equal('\n')
+        html5Entities.decode('&Tab;').should.equal('\t')
 
         htmlEntities.Html5Entities.decode('').should.equal('');
         htmlEntities.Html5Entities.decode('&Lt;&gt;&quot;&amp;').should.equal('≪>"&');
@@ -42,5 +48,7 @@ describe('html5 entities', function () {
         htmlEntities.Html5Entities.decode('&#60;&#x3C;&Aacute;&asdasd;').should.equal('<<Á&asdasd;');
         htmlEntities.Html5Entities.decode('&acE;').should.equal('∾̳');
         htmlEntities.Html5Entities.decode('&acE;x').should.equal('∾̳x');
+        htmlEntities.Html5Entities.decode('&NewLine;').should.equal('\n');
+        htmlEntities.Html5Entities.decode('&Tab;').should.equal('\t');
     });
 });
