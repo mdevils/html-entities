@@ -1,4 +1,4 @@
-node-html-entities
+html-entities
 ==================
 
 [![Build Status](https://travis-ci.org/mdevils/node-html-entities.svg?branch=master)](https://travis-ci.org/mdevils/node-html-entities)
