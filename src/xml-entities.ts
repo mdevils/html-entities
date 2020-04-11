@@ -97,10 +97,10 @@ export class XmlEntities {
         if (!str || !str.length) {
             return '';
         }
-        const strLenght = str.length;
+        const strLength = str.length;
         let result = '';
         let i = 0;
-        while (i < strLenght) {
+        while (i < strLength) {
             const c = str.charCodeAt(i);
             if (c <= 255) {
                 result += str[i++];
