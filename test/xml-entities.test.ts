@@ -1,6 +1,9 @@
-require('chai').should();
-var htmlEntities = require('..');
-var xmlEntities = new htmlEntities.XmlEntities();
+import * as htmlEntities from '../src';
+import {should} from 'chai';
+
+should();
+
+const xmlEntities = new htmlEntities.XmlEntities();
 
 describe('xml entities', function () {
     it('should encode xml entities', function () {

@@ -1,5 +1,8 @@
-require('chai').should();
-var htmlEntities = require('..');
+import * as htmlEntities from '../src';
+import {should} from 'chai';
+
+should();
+
 var html5Entities = new htmlEntities.Html5Entities();
 
 describe('html5 entities', function () {
