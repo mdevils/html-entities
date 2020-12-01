@@ -33,8 +33,8 @@
     "url": "https://github.com/mdevils/node-html-entities.git"
   },
   "main": "./lib/index.js",
-  "typings": "./lib/index",
-  "types": "./lib/index",
+  "typings": "./lib/index.d.ts",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "test": "mocha --recursive -r ts-node/register test/**/*.ts",
     "benchmark": "ts-node benchmark/benchmark",
