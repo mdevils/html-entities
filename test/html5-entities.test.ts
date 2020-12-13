@@ -11,6 +11,7 @@ describe('html5 entities', function () {
         html5Entities.encode('<>"&').should.equal('&lt;&gt;&quot;&amp;');
         html5Entities.encode('<>"&©').should.equal('&lt;&gt;&quot;&amp;&copy;');
         html5Entities.encode('∾̳').should.equal('&acE;');
+        html5Entities.encode('\n').should.equal('\n');
         html5Entities.encodeNonUTF('').should.equal('');
         html5Entities.encodeNonUTF('<>"&©∆').should.equal('&lt;&gt;&quot;&amp;&copy;&#8710;');
         html5Entities.encodeNonASCII('').should.equal('');
@@ -35,6 +36,7 @@ describe('html5 entities', function () {
         html5Entities.decode('&#60;&#x3C;&Aacute;&asdasd;').should.equal('<<Á&asdasd;');
         html5Entities.decode('&acE;').should.equal('∾̳');
         html5Entities.decode('&acE;x').should.equal('∾̳x');
+        html5Entities.decode('&NewLine;').should.equal('\n');
 
         htmlEntities.Html5Entities.decode('').should.equal('');
         htmlEntities.Html5Entities.decode('&Lt;&gt;&quot;&amp;').should.equal('≪>"&');
