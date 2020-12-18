@@ -12,8 +12,10 @@ describe('xml entities', function () {
         xmlEntities.encode('<>"&©').should.equal('&lt;&gt;&quot;&amp;©');
         xmlEntities.encodeNonUTF('').should.equal('');
         xmlEntities.encodeNonUTF('<>"&©®').should.equal('&lt;&gt;&quot;&amp;&#169;&#174;');
+        xmlEntities.encodeNonUTF('😂').should.equal('&#128514;');
         xmlEntities.encodeNonASCII('').should.equal('');
         xmlEntities.encodeNonASCII('<>"&©®').should.equal('<>"&©®');
+        xmlEntities.encodeNonASCII('😂').should.equal('&#128514;');
 
         htmlEntities.XmlEntities.encode('').should.equal('');
         htmlEntities.XmlEntities.encode('<>"&\'').should.equal('&lt;&gt;&quot;&amp;&apos;');
@@ -29,6 +31,7 @@ describe('xml entities', function () {
         xmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
         xmlEntities.decode('&lt;&gt;&quot;&amp;©').should.equal('<>"&©');
         xmlEntities.decode('&lt;&gt;&quot;&amp;&copy;&#8710;').should.equal('<>"&&copy;∆');
+        xmlEntities.decode('&#128514;').should.equal('😂');
 
         htmlEntities.XmlEntities.decode('').should.equal('');
         htmlEntities.XmlEntities.decode('&lt;&gt;&quot;&amp;&apos;').should.equal('<>"&\'');

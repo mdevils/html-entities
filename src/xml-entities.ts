@@ -1,3 +1,5 @@
+import {fromCodePoint, getCodePoint, highSurrogateFrom, highSurrogateTo} from './surrogate-pairs';
+
 const ALPHA_INDEX: {[entity: string]: string} = {
     '&lt': '<',
     '&gt': '>',
@@ -51,10 +53,14 @@ export class XmlEntities {
                     parseInt(s.substr(3), 16) :
                     parseInt(s.substr(2));
 
-                if (isNaN(code) || code < -32768 || code > 65535) {
-                    return '';
+                if (!isNaN(code) || code >= -32768) {
+                    if (code <= 65535) {
+                        return String.fromCharCode(code);
+                    } else {
+                        return fromCodePoint(code);
+                    }
                 }
-                return String.fromCharCode(code);
+                return '';
             }
             return ALPHA_INDEX[s] || s;
         });
@@ -80,7 +86,12 @@ export class XmlEntities {
                 continue;
             }
             if (c < 32 || c > 126) {
-                result += '&#' + c + ';';
+                if (c >= highSurrogateFrom && c <= highSurrogateTo) {
+                    result += '&#' + getCodePoint(str, i) + ';';
+                    i++;
+                } else {
+                    result += '&#' + c + ';';
+                }
             } else {
                 result += str.charAt(i);
             }
@@ -106,7 +117,12 @@ export class XmlEntities {
                 result += str[i++];
                 continue;
             }
-            result += '&#' + c + ';';
+            if (c >= highSurrogateFrom && c <= highSurrogateTo) {
+                result += '&#' + getCodePoint(str, i) + ';';
+                i++;
+            } else {
+                result += '&#' + c + ';';
+            }
             i++;
         }
         return result;
