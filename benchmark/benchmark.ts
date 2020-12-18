@@ -1,3 +1,4 @@
+import * as Benchmark from 'benchmark';
 import * as htmlEntities from '../src';
 
 const xmlEntities = new htmlEntities.XmlEntities();
@@ -16,14 +17,14 @@ benchmark('Encode test', {
     'XmlEntities.encode': () => xmlEntities.encode(textToEncode),
     'XmlEntities.encodeNonUTF': () => xmlEntities.encodeNonUTF(textToEncode),
     'Html4Entities.encode': () => html4Entities.encode(textToEncode),
-    'Html4Entities.encodeNonUTF': () => html4Entities.encodeNonUTF (textToEncode),
-    'html5Entities.encode': () => html5Entities.encode (textToEncode),
-    'html5Entities.encodeNonUTF': () => html5Entities.encodeNonUTF (textToEncode),
-    'nodeHtmlEncoder(entities).htmlEncode': () => nodeHtmlEncoderEntities.htmlEncode (textToEncode),
-    'nodeHtmlEncoder(numerical).htmlEncode': () => nodeHtmlEncoderNumerical.htmlEncode (textToEncode),
-    'entities.encodeXML': () => entities.encodeXML (textToEncode),
-    'entities.encodeHTML4': () => entities.encodeHTML4 (textToEncode),
-    'entities.encodeHTML5': () => entities.encodeHTML5 (textToEncode)
+    'Html4Entities.encodeNonUTF': () => html4Entities.encodeNonUTF(textToEncode),
+    'html5Entities.encode': () => html5Entities.encode(textToEncode),
+    'html5Entities.encodeNonUTF': () => html5Entities.encodeNonUTF(textToEncode),
+    'nodeHtmlEncoder(entities).htmlEncode': () => nodeHtmlEncoderEntities.htmlEncode(textToEncode),
+    'nodeHtmlEncoder(numerical).htmlEncode': () => nodeHtmlEncoderNumerical.htmlEncode(textToEncode),
+    'entities.encodeXML': () => entities.encodeXML(textToEncode),
+    'entities.encodeHTML4': () => entities.encodeHTML4(textToEncode),
+    'entities.encodeHTML5': () => entities.encodeHTML5(textToEncode)
 
 });
 
@@ -67,18 +68,19 @@ benchmark('Decode empty text test', {
 });
 
 function benchmark(name: string, tests: {[key: string]: () => void}) {
-    const c = 10000;
-    console.log(name + ' ' + c + ' times.');
-
-    Object.keys(tests).forEach(function (testName) {
-        const cb = tests[testName];
-        const start = Date.now();
-        let i = 0;
-        while (i < c) {
-            cb();
-            i++;
+    console.log(name);
+    const suite = new Benchmark.Suite();
+    for(const [testName, testCallback] of Object.entries(tests)) {
+        suite.add(testName, testCallback);
+    }
+    suite.on('complete', function(this: Benchmark.Suite) {
+        const benchmarks = Array.from(this as unknown as Benchmark[]);
+        benchmarks.sort(function({stats: statsA}: Benchmark, {stats: statsB}: Benchmark) {
+            return(statsA.mean + statsA.moe > statsB.mean + statsB.moe ? 1 : -1);
+        });
+        for(let i = 0; i < benchmarks.length; i++) {
+            console.log(`    #${i + 1}: ${String(benchmarks[i])}`);
         }
-        const time = Date.now() - start;
-        console.log('    ' + testName + ': ' + time + 'ms, ' + (Math.round(c/time)) + 'op/msec');
     });
+    suite.run();
 }

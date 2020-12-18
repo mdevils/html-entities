@@ -17,9 +17,11 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/benchmark": "^2.1.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.4",
+    "benchmark": "^2.1.4",
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
     "entities": "^2.0.0",
