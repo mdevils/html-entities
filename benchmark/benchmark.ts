@@ -28,8 +28,8 @@ function createHtmlEncodeMethods(textToEncode: string) {
     };
     return {
         ...encodeMethods,
-        // '(old) Html4Entities.encode': () => html4Entities.encode(textToEncode),
-        // '(old) Html5Entities.encode': () => html5Entities.encode(textToEncode),
+        '(old) Html4Entities.encode': () => html4Entities.encode(textToEncode),
+        '(old) Html5Entities.encode': () => html5Entities.encode(textToEncode),
         'entities.encodeHTML5': () => entities.encodeHTML5(textToEncode),
         'he.encode': () => he.encode(textToEncode, heOptions)
     };
@@ -50,8 +50,8 @@ function createHtmlDecodeMethods(textToDecode: string) {
 
     return {
         ...decodeMethods,
-        // '(old) Html4Entities.decode': () => html4Entities.decode(textToDecode),
-        // '(old) Html5Entities.decode': () => html5Entities.decode(textToDecode),
+        '(old) Html4Entities.decode': () => html4Entities.decode(textToDecode),
+        '(old) Html5Entities.decode': () => html5Entities.decode(textToDecode),
         'entities.decodeHTML4': () => entities.decodeHTML4(textToDecode),
         'entities.decodeHTML5': () => entities.decodeHTML5(textToDecode),
         'he.decode': () => he.decode(textToDecode)
@@ -73,7 +73,7 @@ function createXmlEncodeMethods(textToEncode: string) {
 
     return {
         ...encodeMethods,
-        // '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
+        '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
         'entities.encodeXML': () => entities.encodeXML(textToEncode),
         'entities.escape': () => entities.escape(textToEncode),
         'he.escape': () => he.escape(textToEncode)
@@ -95,7 +95,7 @@ function createXmlDecodeMethods(textToDecode: string) {
 
     return {
         ...decodeMethods,
-        // '(old) XmlEntities.decode': () => xmlEntities.decode(textToDecode),
+        '(old) XmlEntities.decode': () => xmlEntities.decode(textToDecode),
         'entities.decodeXML': () => entities.decodeXML(textToDecode),
         'entities.decodeXMLStrict': () => entities.decodeXMLStrict(textToDecode),
         'he.unescape': () => he.unescape(textToDecode)
