@@ -16,7 +16,7 @@ Usage
 
 ### encode(text, options)
 
-Encodes text replacing HTML special characters (`<>&"''`) plus other character ranges depending on `mode` option value.
+Encodes text replacing HTML special characters (`<>&"'`) plus other character ranges depending on `mode` option value.
 
 ```
 import {encode} from 'html-entities';

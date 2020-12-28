@@ -51,7 +51,6 @@
     "test": "mocha --recursive -r ts-node/register test/**/*.ts",
     "test:lib": "TEST_LIB=1 yarn test",
     "benchmark": "ts-node benchmark/benchmark",
-    "travis": "yarn test",
     "lint": "eslint src/**.ts",
     "build": "yarn build:ts && yarn build:concat && yarn build:minify && yarn build:cleanup && yarn test:lib",
     "build:ts": "tsc",
