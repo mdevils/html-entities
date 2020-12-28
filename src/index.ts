@@ -60,9 +60,9 @@ const defaultDecodeOptions: DecodeOptions = {
 };
 
 const decodeRegExps: Record<DecodeScope, RegExp> = {
-    strict: /&#?[0-9a-zA-Z]+;/g,
-    body: /&#?[0-9a-zA-Z]+;?/g,
-    attribute: /&#?[0-9a-zA-Z]+[;=]?/g
+    strict: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);/g,
+    body: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);?/g,
+    attribute: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+)[;=]?/g
 };
 
 const fromCharCode = String.fromCharCode;
