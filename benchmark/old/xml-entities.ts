@@ -1,4 +1,4 @@
-import {fromCodePoint, getCodePoint, highSurrogateFrom, highSurrogateTo} from './surrogate-pairs';
+import {fromCodePoint, getCodePoint, highSurrogateFrom, highSurrogateTo} from '../../src/surrogate-pairs';
 
 const ALPHA_INDEX: {[entity: string]: string} = {
     '&lt': '<',
