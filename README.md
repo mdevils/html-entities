@@ -1,9 +1,6 @@
 html-entities
 =============
 
-[![Build Status](https://travis-ci.org/mdevils/node-html-entities.svg?branch=master)](https://travis-ci.org/mdevils/node-html-entities)
-[![Coverage Status](https://coveralls.io/repos/mdevils/node-html-entities/badge.svg?branch=master&service=github)](https://coveralls.io/github/mdevils/node-html-entities?branch=master)
-
 Fastest html entities library.
 
 
