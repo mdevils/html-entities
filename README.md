@@ -120,8 +120,8 @@ XML
         #6: entities.escape x 233,410 ops/sec ±0.43% (95 runs sampled)
 
     Decode test
-      * #1: html-entities.decode - xml, body x 409,645 ops/sec ±0.43% (93 runs sampled)
-        #2: entities.decodeXML x 417,140 ops/sec ±2.42% (91 runs sampled)
+        #1: entities.decodeXML x 417,140 ops/sec ±2.42% (91 runs sampled)
+      * #2: html-entities.decode - xml, body x 409,645 ops/sec ±0.43% (93 runs sampled)
       * #3: html-entities.decode - xml, attribute x 406,512 ops/sec ±0.99% (97 runs sampled)
       * #4: html-entities.decode - xml, strict x 398,532 ops/sec ±2.54% (93 runs sampled)
         #5: entities.decodeXMLStrict x 377,224 ops/sec ±5.69% (85 runs sampled)
