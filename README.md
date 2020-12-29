@@ -21,7 +21,7 @@ Encodes text replacing HTML special characters (`<>&"'`) plus other character ra
 ```js
 import {encode} from 'html-entities';
 
-encode(' < > " \' & © ∆');
+encode('< > " \' & © ∆');
 // -> '&lt; &gt; &quot; &apos; &amp; © ∆'
 
 encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable'});
