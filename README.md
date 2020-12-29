@@ -145,7 +145,7 @@ Escaping
     Escape test
 
         #1: he.escape x 1,163,620 ops/sec ±2.53% (88 runs sampled)
-        #2: html-entities.encode - xml, specialChars x 1,087,350 ops/sec ±4.06% (91 runs sampled)
+      * #2: html-entities.encode - xml, specialChars x 1,087,350 ops/sec ±4.06% (91 runs sampled)
 ```
 
 License
