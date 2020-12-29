@@ -18,16 +18,16 @@ Usage
 
 Encodes text replacing HTML special characters (`<>&"'`) plus other character ranges depending on `mode` option value.
 
-```
+```js
 import {encode} from 'html-entities';
 
-encode(' < > " \' & © ∆')
+encode(' < > " \' & © ∆');
 // -> '&lt; &gt; &quot; &apos; &amp; © ∆'
 
-encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable'})
+encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable'});
 // -> '&lt; &gt; &quot; &apos; &amp; &copy; &#8710;'
 
-encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable', level: 'xml'})
+encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable', level: 'xml'});
 // -> '&lt; &gt; &quot; &apos; &amp; &#169; &#8710;'
 ```
 
@@ -56,16 +56,16 @@ Options:
 
 Decodes text replacing entities to characters. Unknown entities are left as is.
 
-```
+```js
 import {decode} from 'html-entities';
 
-decode('&lt; &gt; &quot; &apos; &amp; &#169; &#8710;')
+decode('&lt; &gt; &quot; &apos; &amp; &#169; &#8710;');
 // -> '< > " \' & © ∆'
 
-decode('&copy', {level: 'html5'})
+decode('&copy', {level: 'html5'});
 // -> '©'
 
-decode('&copy', {level: 'xml'})
+decode('&copy', {level: 'xml'});
 // -> '&copy;'
 ```
 
