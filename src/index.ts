@@ -42,7 +42,9 @@ export function encode(
     text: string | undefined | null,
     {mode = 'specialChars', numeric = 'decimal', level = 'all'}: EncodeOptions = defaultEncodeOptions
 ) {
-    if (!text) return '';
+    if (!text) {
+        return '';
+    }
     const references = allNamedReferences[level].characters;
     const isHex = numeric === 'hexadecimal';
 
@@ -73,7 +75,9 @@ export function decode(
     text: string | undefined | null,
     {level = 'all', scope = level === 'xml' ? 'strict' : 'body'}: DecodeOptions = defaultDecodeOptions
 ) {
-    if (!text) return '';
+    if (!text) {
+        return '';
+    }
     const references = allNamedReferences[level].entities;
     const isAttribute = scope === 'attribute';
 
