@@ -1,7 +1,7 @@
 html-entities
 =============
 
-Fastest html entities library.
+Fastest HTML entities library.
 
 
 Installation
