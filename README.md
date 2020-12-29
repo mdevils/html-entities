@@ -80,9 +80,9 @@ Options:
 
 #### scope
 
- * 'body' emulates behavior of browser when parsing tag bodies: entities without semicolon are also replaced (default).
- * 'attribute' emulates behavior of browser when parsing tag attributes: entities without semicolon are replaced when not followed by equality sign `=`.
- * 'strict' ignores entities without semicolon.
+ * `body` emulates behavior of browser when parsing tag bodies: entities without semicolon are also replaced (default).
+ * `attribute` emulates behavior of browser when parsing tag attributes: entities without semicolon are replaced when not followed by equality sign `=`.
+ * `strict` ignores entities without semicolon.
 
 Performance
 -----------
