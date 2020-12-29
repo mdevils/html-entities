@@ -24,11 +24,11 @@ import {encode} from 'html-entities';
 encode('< > " \' & © ∆');
 // -> '&lt; &gt; &quot; &apos; &amp; © ∆'
 
-encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable'});
-// -> '&lt; &gt; &quot; &apos; &amp; &copy; &#8710;'
+encode('< ©', {mode: 'nonAsciiPrintable'});
+// -> '&lt; &copy;'
 
-encode('< > " \' & © ∆', {mode: 'nonAsciiPrintable', level: 'xml'});
-// -> '&lt; &gt; &quot; &apos; &amp; &#169; &#8710;'
+encode('< ©', {mode: 'nonAsciiPrintable', level: 'xml'});
+// -> '&lt; &#169;'
 ```
 
 Options:
