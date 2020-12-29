@@ -5,6 +5,12 @@ import * as HE from '../src';
 const {encode, decode} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HE;
 
 describe('encode()', () => {
+    it('should handle undefined', () => {
+        expect(decode(undefined)).to.equal('');
+    });
+    it('should handle null', () => {
+        expect(decode(null)).to.equal('');
+    });
     it('should handle empty string', () => {
         expect(encode('')).to.equal('');
     });
@@ -50,6 +56,12 @@ describe('encode()', () => {
 });
 
 describe('decode()', () => {
+    it('should handle undefined', () => {
+        expect(decode(undefined)).to.equal('');
+    });
+    it('should handle null', () => {
+        expect(decode(null)).to.equal('');
+    });
     it('should handle empty string', () => {
         expect(decode('')).to.equal('');
     });
