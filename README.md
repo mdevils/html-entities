@@ -62,10 +62,10 @@ import {decode} from 'html-entities';
 decode('&lt; &gt; &quot; &apos; &amp; &#169; &#8710;');
 // -> '< > " \' & © ∆'
 
-decode('&copy', {level: 'html5'});
+decode('&copy;', {level: 'html5'});
 // -> '©'
 
-decode('&copy', {level: 'xml'});
+decode('&copy;', {level: 'xml'});
 // -> '&copy;'
 ```
 
