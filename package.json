@@ -34,6 +34,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
     "he": "^1.2.0",
+    "husky": "^4.3.6",
     "mocha": "^7.1.2",
     "prettier": "^2.1.2",
     "ts-node": "^8.9.1",
@@ -63,5 +64,10 @@
     "lib",
     "LICENSE"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn test"
+    }
+  },
   "license": "MIT"
 }
