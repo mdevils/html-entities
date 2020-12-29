@@ -10,107 +10,100 @@ const xmlEntities = new XmlEntities();
 const html4Entities = new Html4Entities();
 const html5Entities = new Html5Entities();
 
-function createHtmlEncodeMethods(textToEncode: string) {
-    const encodeOptions: Record<string, EncodeOptions> = {
-        'html5, specialChars': {level: 'html5', mode: 'specialChars'},
-        'html5, nonAsciiPrintable': {level: 'html5', mode: 'nonAsciiPrintable'},
-        'html5, nonAscii': {level: 'html5', mode: 'nonAscii'}
-    };
-
-    const encodeMethods = Object.keys(encodeOptions).reduce((result, key) => {
-        const options = encodeOptions[key];
-        result['html-entities.encode - ' + key] = () => encode(textToEncode, options);
-        return result;
-    }, {} as Record<string, () => void>);
-
-    const heOptions = {
-        useNamedReferences: true
-    };
+function createHtml5EncodeMethods(textToEncode: string) {
+    const heOptions = {useNamedReferences: true};
+    const nonAsciiPrintable: EncodeOptions = {level: 'html5', mode: 'nonAsciiPrintable'};
+    const nonAscii: EncodeOptions = {level: 'html5', mode: 'nonAscii'};
     return {
-        ...encodeMethods,
-        '(old) Html4Entities.encode': () => html4Entities.encode(textToEncode),
-        '(old) Html5Entities.encode': () => html5Entities.encode(textToEncode),
+        'html-entities.encode - html5, nonAscii': () => encode(textToEncode, nonAscii),
+        'html-entities.encode - html5, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
+        '(old) Html5Entities.encodeNonASCII': () => html5Entities.encodeNonASCII(textToEncode),
         'entities.encodeHTML5': () => entities.encodeHTML5(textToEncode),
         'he.encode': () => he.encode(textToEncode, heOptions)
     };
 }
 
-function createHtmlDecodeMethods(textToDecode: string) {
-    const decodeOptions: Record<string, DecodeOptions> = {
-        'html5, strict': {level: 'html5', scope: 'strict'},
-        'html5, body': {level: 'html5', scope: 'body'},
-        'html5, attribute': {level: 'html5', scope: 'attribute'}
-    };
-
-    const decodeMethods = Object.keys(decodeOptions).reduce((result, key) => {
-        const options = decodeOptions[key];
-        result['html-entities.decode - ' + key] = () => decode(textToDecode, options);
-        return result;
-    }, {} as Record<string, () => void>);
-
+function createHtml5DecodeMethods(textToDecode: string) {
+    const strict: DecodeOptions = {level: 'html5', scope: 'strict'};
+    const body: DecodeOptions = {level: 'html5', scope: 'body'};
+    const attribute: DecodeOptions = {level: 'html5', scope: 'attribute'};
     return {
-        ...decodeMethods,
-        '(old) Html4Entities.decode': () => html4Entities.decode(textToDecode),
+        'html-entities.decode - html5, strict': () => decode(textToDecode, strict),
+        'html-entities.decode - html5, body': () => decode(textToDecode, body),
+        'html-entities.decode - html5, attribute': () => decode(textToDecode, attribute),
         '(old) Html5Entities.decode': () => html5Entities.decode(textToDecode),
-        'entities.decodeHTML4': () => entities.decodeHTML4(textToDecode),
         'entities.decodeHTML5': () => entities.decodeHTML5(textToDecode),
         'he.decode': () => he.decode(textToDecode)
     };
 }
 
-function createXmlEncodeMethods(textToEncode: string) {
-    const encodeOptions: Record<string, EncodeOptions> = {
-        'xml, specialChars': {level: 'xml', mode: 'specialChars'},
-        'xml, nonAsciiPrintable': {level: 'xml', mode: 'nonAsciiPrintable'},
-        'xml, nonAscii': {level: 'xml', mode: 'nonAscii'}
-    };
-
-    const encodeMethods = Object.keys(encodeOptions).reduce((result, key) => {
-        const options = encodeOptions[key];
-        result['html-entities.encode - ' + key] = () => encode(textToEncode, options);
-        return result;
-    }, {} as Record<string, () => void>);
-
+function createHtml4EncodeMethods(textToEncode: string) {
+    const nonAsciiPrintable: EncodeOptions = {level: 'html4', mode: 'nonAsciiPrintable'};
+    const nonAscii: EncodeOptions = {level: 'html4', mode: 'nonAscii'};
     return {
-        ...encodeMethods,
-        '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
-        'entities.encodeXML': () => entities.encodeXML(textToEncode),
-        'entities.escape': () => entities.escape(textToEncode),
-        'he.escape': () => he.escape(textToEncode)
+        'html-entities.encode - html4, nonAscii': () => encode(textToEncode, nonAscii),
+        'html-entities.encode - html4, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
+        '(old) Html4Entities.encodeNonASCII': () => html4Entities.encodeNonASCII(textToEncode),
+        'entities.encodeHTML4': () => entities.encodeHTML4(textToEncode)
+    };
+}
+
+function createHtml4DecodeMethods(textToDecode: string) {
+    const strict: DecodeOptions = {level: 'html4', scope: 'strict'};
+    const body: DecodeOptions = {level: 'html4', scope: 'body'};
+    const attribute: DecodeOptions = {level: 'html4', scope: 'attribute'};
+    return {
+        'html-entities.decode - html4, strict': () => decode(textToDecode, strict),
+        'html-entities.decode - html4, body': () => decode(textToDecode, body),
+        'html-entities.decode - html4, attribute': () => decode(textToDecode, attribute),
+        '(old) Html4Entities.decode': () => html4Entities.decode(textToDecode),
+        'entities.decodeHTML4': () => entities.decodeHTML4(textToDecode)
+    };
+}
+
+function createXmlEncodeMethods(textToEncode: string) {
+    const nonAsciiPrintable: EncodeOptions = {level: 'xml', mode: 'nonAsciiPrintable'};
+    const nonAscii: EncodeOptions = {level: 'xml', mode: 'nonAscii'};
+    return {
+        'html-entities.encode - xml, nonAscii': () => encode(textToEncode, nonAscii),
+        'html-entities.encode - xml, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
+        '(old) XmlEntities.encodeNonASCII': () => xmlEntities.encode(textToEncode),
+        'entities.encodeXML': () => entities.encodeXML(textToEncode)
     };
 }
 
 function createXmlDecodeMethods(textToDecode: string) {
-    const decodeOptions: Record<string, DecodeOptions> = {
-        'xml, strict': {level: 'xml', scope: 'strict'},
-        'xml, body': {level: 'xml', scope: 'body'},
-        'xml, attribute': {level: 'xml', scope: 'attribute'}
-    };
-
-    const decodeMethods = Object.keys(decodeOptions).reduce((result, key) => {
-        const options = decodeOptions[key];
-        result['html-entities.decode - ' + key] = () => decode(textToDecode, options);
-        return result;
-    }, {} as Record<string, () => void>);
-
+    const strict: DecodeOptions = {level: 'xml', scope: 'strict'};
+    const body: DecodeOptions = {level: 'xml', scope: 'body'};
+    const attribute: DecodeOptions = {level: 'xml', scope: 'attribute'};
     return {
-        ...decodeMethods,
+        'html-entities.decode - xml, strict': () => decode(textToDecode, strict),
+        'html-entities.decode - xml, body': () => decode(textToDecode, body),
+        'html-entities.decode - xml, attribute': () => decode(textToDecode, attribute),
         '(old) XmlEntities.decode': () => xmlEntities.decode(textToDecode),
         'entities.decodeXML': () => entities.decodeXML(textToDecode),
-        'entities.decodeXMLStrict': () => entities.decodeXMLStrict(textToDecode),
-        'he.unescape': () => he.unescape(textToDecode)
+        'entities.decodeXMLStrict': () => entities.decodeXMLStrict(textToDecode)
+    };
+}
+
+function createEscapeMethods(textToEncode: string) {
+    const specialChars: EncodeOptions = {level: 'xml', mode: 'specialChars'};
+    return {
+        'html-entities.encode - xml, specialChars': () => encode(textToEncode, specialChars),
+        '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
+        'he.escape': () => he.escape(textToEncode)
     };
 }
 
 function section(sectionName: string, callback: () => void) {
-    console.log(sectionName);
+    console.log(sectionName + '\n');
     callback();
 }
 
 const indent = '    ';
 
 function benchmark(name: string, tests: {[key: string]: () => void}) {
-    console.log(`${indent}${name}`);
+    console.log(`${indent}${name}\n`);
     const suite = new Benchmark.Suite();
     for (const [testName, testCallback] of Object.entries(tests)) {
         suite.add(testName, testCallback);
@@ -125,16 +118,18 @@ function benchmark(name: string, tests: {[key: string]: () => void}) {
         }
     });
     suite.run();
+    console.log();
 }
 
-section('HTML', () => {
+section('HTML5', () => {
     benchmark(
         'Encode test',
-        createHtmlEncodeMethods(
+        createHtml5EncodeMethods(
             `
                 This is a test encode benchmark.
                 Should contain <>&' and ".
                 Some control characters: \x01.
+                Some HTML5-only named references: ℞ ⪶.
                 And some unicode symbols: ©, ∆, —, 😂.
                 Good luck.
             `
@@ -142,11 +137,41 @@ section('HTML', () => {
     );
     benchmark(
         'Decode test',
-        createHtmlDecodeMethods(
+        createHtml5DecodeMethods(
             `
                 &#60;This&#62; is a test encode benchmark.
                 Should contain &lt;&gt;&amp;&apos; and &quot;.
                 Some control characters: &#1;.
+                Some HTML5-only named references: &rx; &succneqq;.
+                And some unicode symbols: &copy;, &#8710;, &mdash;, &#x1f602;.
+                Good luck.
+            `
+        )
+    );
+});
+
+section('HTML4', () => {
+    benchmark(
+        'Encode test',
+        createHtml4EncodeMethods(
+            `
+                This is a test encode benchmark.
+                Should contain <>&' and ".
+                Some control characters: \x01.
+                Some HTML4 named references: &ordm; &raquo;.
+                And some unicode symbols: ©, ∆, —, 😂.
+                Good luck.
+            `
+        )
+    );
+    benchmark(
+        'Decode test',
+        createHtml4DecodeMethods(
+            `
+                &#60;This&#62; is a test encode benchmark.
+                Should contain &lt;&gt;&amp;&apos; and &quot;.
+                Some control characters: &#1;.
+                Some HTML4 named references: º ».
                 And some unicode symbols: &copy;, &#8710;, &mdash;, &#x1f602;.
                 Good luck.
             `
@@ -175,6 +200,21 @@ section('XML', () => {
                 Should contain &lt;&gt;&amp;&apos; and &quot;.
                 Some control characters: &#1;.
                 And some unicode symbols: &#8710;, &#x1f602;.
+                Good luck.
+            `
+        )
+    );
+});
+
+section('Escaping', () => {
+    benchmark(
+        'Escape test',
+        createEscapeMethods(
+            `
+                This is a test encode benchmark.
+                Should contain <>&' and ".
+                Some control characters: \x01.
+                And some unicode symbols: ©, ∆, —, 😂.
                 Good luck.
             `
         )
