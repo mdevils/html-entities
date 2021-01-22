@@ -1,3 +1,8 @@
+2.0.3
+-----
+
+ * Handle invalid numeric HTML entities.
+
 2.0.2
 -----
 
