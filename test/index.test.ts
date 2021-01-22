@@ -65,6 +65,9 @@ describe('decode()', () => {
     it('should handle empty string', () => {
         expect(decode('')).to.equal('');
     });
+    it('should handle invalid numeric entities', () => {
+        expect(decode('&#2013266066;')).to.equal('&#2013266066;');
+    });
     it('should decode numeric entities without semicolon', () => {
         expect(decode('&#34C&#34')).to.equal('"C"');
     });
