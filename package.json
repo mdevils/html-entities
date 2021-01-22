@@ -25,9 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "benchmark": "^2.1.4",
-    "browserify": "^17.0.0",
     "chai": "^4.2.0",
-    "coveralls": "^3.1.0",
     "entities": "^2.1.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
@@ -38,8 +36,7 @@
     "mocha": "^7.1.2",
     "prettier": "^2.1.2",
     "ts-node": "^8.9.1",
-    "typescript": "^3.8.3",
-    "uglify-js": "^3.12.3"
+    "typescript": "^3.8.3"
   },
   "repository": {
     "type": "git",
@@ -53,11 +50,7 @@
     "test:lib": "TEST_LIB=1 yarn test",
     "benchmark": "ts-node benchmark/benchmark",
     "lint": "eslint src/**.ts",
-    "build": "yarn build:ts && yarn build:concat && yarn build:minify && yarn build:cleanup && yarn test:lib",
-    "build:ts": "tsc",
-    "build:concat": "browserify -s html-entities --bare lib/index.js -o lib/index.js",
-    "build:minify": "uglifyjs --compress --mangle --output lib/index.js -- lib/index.js",
-    "build:cleanup": "cd lib && ls -1 | grep -vE 'index.js|index.d.ts' | xargs rm -Rf",
+    "build": "rm -Rf lib/* && tsc && yarn test:lib",
     "prepublishOnly": "yarn build"
   },
   "files": [
