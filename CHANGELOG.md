@@ -1,3 +1,18 @@
+2.0.6
+-----
+
+ * Handle invalid numeric HTML entities: mimic browser behaviour.
+
+2.0.5
+-----
+
+ * Handling behaviour of ambiguous ampersands.
+
+2.0.4
+-----
+
+ * Fix webpack build warning.
+
 2.0.3
 -----
 
