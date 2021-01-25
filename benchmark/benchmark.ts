@@ -4,7 +4,7 @@ import * as he from 'he';
 import {XmlEntities, Html4Entities, Html5Entities} from './old';
 import {decode, DecodeOptions, encode, EncodeOptions} from '../src';
 
-const includeOldTests = Boolean(process.env.INCLUDE_OLD_TESTS);
+const includeOldTests = Boolean(process.env.INCLUDE_OLD);
 
 const xmlEntities = new XmlEntities();
 const html4Entities = new Html4Entities();
