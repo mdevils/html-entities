@@ -1,14 +1,32 @@
 import * as Benchmark from 'benchmark';
 import * as entities from 'entities';
 import * as he from 'he';
-import {Html4Entities} from './old/html4-entities';
-import {Html5Entities} from './old/html5-entities';
-import {XmlEntities} from './old/xml-entities';
+import {XmlEntities, Html4Entities, Html5Entities} from './old';
 import {decode, DecodeOptions, encode, EncodeOptions} from '../src';
+
+const includeOldTests = Boolean(process.env.INCLUDE_OLD_TESTS);
 
 const xmlEntities = new XmlEntities();
 const html4Entities = new Html4Entities();
 const html5Entities = new Html5Entities();
+
+type GlobalWithRequire = typeof global & {require: typeof require};
+
+(global as GlobalWithRequire).require = require;
+
+function cleanNodeModulesCache() {
+    const cache = (global as GlobalWithRequire).require.cache;
+    for (const cacheKey of Object.keys(cache)) {
+        delete cache[cacheKey];
+    }
+}
+
+function createRequireTests(modules: Record<string, string>) {
+    return Object.keys(modules).reduce((result, moduleName) => {
+        result[moduleName] = () => require(modules[moduleName]);
+        return result;
+    }, {} as Record<string, () => void>);
+}
 
 function createHtml5EncodeMethods(textToEncode: string) {
     const heOptions = {useNamedReferences: true};
@@ -102,11 +120,14 @@ function section(sectionName: string, callback: () => void) {
 
 const indent = '    ';
 
-function benchmark(name: string, tests: {[key: string]: () => void}) {
+function benchmark(name: string, tests: {[key: string]: () => void}, setup?: () => void) {
     console.log(`${indent}${name}\n`);
     const suite = new Benchmark.Suite();
     for (const [testName, testCallback] of Object.entries(tests)) {
-        suite.add(testName, testCallback);
+        if (!includeOldTests && testName.indexOf('(old)') !== -1) {
+            continue;
+        }
+        suite.add(testName, testCallback, {setup});
     }
     suite.on('complete', function (this: Benchmark.Suite) {
         const benchmarks = Array.from((this as unknown) as Benchmark[]);
@@ -121,6 +142,17 @@ function benchmark(name: string, tests: {[key: string]: () => void}) {
     console.log();
 }
 
+section('Common', () => {
+    benchmark(
+        'Initialization / Load speed',
+        createRequireTests({
+            'html-entities': '..',
+            entities: 'entities',
+            he: 'he'
+        }),
+        cleanNodeModulesCache
+    );
+});
 section('HTML5', () => {
     benchmark(
         'Encode test',
