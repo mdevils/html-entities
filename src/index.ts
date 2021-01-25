@@ -1,4 +1,4 @@
-import {namedReferences} from './named-references';
+import {bodyRegExps, namedReferences} from './named-references';
 import {numericUnicodeMap} from './numeric-unicode-map';
 import {fromCodePoint, getCodePoint} from './surrogate-pairs';
 
@@ -63,10 +63,30 @@ const defaultDecodeOptions: DecodeOptions = {
     level: 'all'
 };
 
-const decodeRegExps: Record<DecodeScope, RegExp> = {
-    strict: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);/g,
-    body: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);?/g,
-    attribute: /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+)[;=]?/g
+const strict = /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);/g;
+const attribute = /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+)[;=]?/g;
+
+const baseDecodeRegExps: Record<Exclude<Level, 'all'>, Record<DecodeScope, RegExp>> = {
+    xml: {
+        strict,
+        attribute,
+        body: bodyRegExps.xml
+    },
+    html4: {
+        strict,
+        attribute,
+        body: bodyRegExps.html4
+    },
+    html5: {
+        strict,
+        attribute,
+        body: bodyRegExps.html5
+    }
+};
+
+const decodeRegExps: Record<Level, Record<DecodeScope, RegExp>> = {
+    ...baseDecodeRegExps,
+    all: baseDecodeRegExps.html5
 };
 
 const fromCharCode = String.fromCharCode;
@@ -81,7 +101,7 @@ export function decode(
     const references = allNamedReferences[level].entities;
     const isAttribute = scope === 'attribute';
 
-    return text.replace(decodeRegExps[scope], function (entity) {
+    return text.replace(decodeRegExps[level][scope], function (entity) {
         if (isAttribute && entity[entity.length - 1] === '=') {
             return entity;
         }

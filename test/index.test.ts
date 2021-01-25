@@ -71,6 +71,9 @@ describe('decode()', () => {
     it('should decode numeric entities without semicolon', () => {
         expect(decode('&#34C&#34')).to.equal('"C"');
     });
+    it('should decode incomplete named entities followed by alphanumeric characters', () => {
+        expect(decode('&uumlber')).to.equal('über');
+    });
     describe('level', () => {
         it('should decode according to the level', () => {
             expect(decode('a\n&lt;&gt;&quot;&apos;&amp;&copy;&#8710;&rx;&#128514;&#0;&#1;', {level: 'all'})).to.equal(
