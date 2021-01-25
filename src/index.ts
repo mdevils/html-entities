@@ -90,6 +90,7 @@ const decodeRegExps: Record<Level, Record<DecodeScope, RegExp>> = {
 };
 
 const fromCharCode = String.fromCharCode;
+const outOfBoundsChar = fromCharCode(65533);
 
 export function decode(
     text: string | undefined | null,
@@ -113,7 +114,7 @@ export function decode(
             secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
 
         return code >= 0x10ffff
-            ? entity
+            ? outOfBoundsChar
             : code > 65535
             ? fromCodePoint(code)
             : fromCharCode(numericUnicodeMap[code] || code);
