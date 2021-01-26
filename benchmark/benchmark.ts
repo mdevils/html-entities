@@ -36,7 +36,7 @@ function createHtml5EncodeMethods(textToEncode: string) {
         'html-entities.encode - html5, nonAscii': () => encode(textToEncode, nonAscii),
         'html-entities.encode - html5, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
         '(old) Html5Entities.encodeNonASCII': () => html5Entities.encodeNonASCII(textToEncode),
-        'entities.encodeHTML5': () => entities.encodeHTML5(textToEncode),
+        'entities.encodeNonAsciiHTML': () => entities.encodeNonAsciiHTML(textToEncode),
         'he.encode': () => he.encode(textToEncode, heOptions)
     };
 }
@@ -50,7 +50,8 @@ function createHtml5DecodeMethods(textToDecode: string) {
         'html-entities.decode - html5, body': () => decode(textToDecode, body),
         'html-entities.decode - html5, attribute': () => decode(textToDecode, attribute),
         '(old) Html5Entities.decode': () => html5Entities.decode(textToDecode),
-        'entities.decodeHTML5': () => entities.decodeHTML5(textToDecode),
+        'entities.decodeHTML': () => entities.decodeHTML(textToDecode),
+        'entities.decodeHTMLStrict': () => entities.decodeHTMLStrict(textToDecode),
         'he.decode': () => he.decode(textToDecode)
     };
 }
@@ -62,7 +63,7 @@ function createHtml4EncodeMethods(textToEncode: string) {
         'html-entities.encode - html4, nonAscii': () => encode(textToEncode, nonAscii),
         'html-entities.encode - html4, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
         '(old) Html4Entities.encodeNonASCII': () => html4Entities.encodeNonASCII(textToEncode),
-        'entities.encodeHTML4': () => entities.encodeHTML4(textToEncode)
+        'entities.encodeNonAsciiHTML': () => entities.encodeNonAsciiHTML(textToEncode)
     };
 }
 
@@ -75,7 +76,8 @@ function createHtml4DecodeMethods(textToDecode: string) {
         'html-entities.decode - html4, body': () => decode(textToDecode, body),
         'html-entities.decode - html4, attribute': () => decode(textToDecode, attribute),
         '(old) Html4Entities.decode': () => html4Entities.decode(textToDecode),
-        'entities.decodeHTML4': () => entities.decodeHTML4(textToDecode)
+        'entities.decodeHTML': () => entities.decodeHTML(textToDecode),
+        'entities.decodeHTMLStrict': () => entities.decodeHTMLStrict(textToDecode)
     };
 }
 
@@ -99,8 +101,7 @@ function createXmlDecodeMethods(textToDecode: string) {
         'html-entities.decode - xml, body': () => decode(textToDecode, body),
         'html-entities.decode - xml, attribute': () => decode(textToDecode, attribute),
         '(old) XmlEntities.decode': () => xmlEntities.decode(textToDecode),
-        'entities.decodeXML': () => entities.decodeXML(textToDecode),
-        'entities.decodeXMLStrict': () => entities.decodeXMLStrict(textToDecode)
+        'entities.decodeXML': () => entities.decodeXML(textToDecode)
     };
 }
 
@@ -109,7 +110,9 @@ function createEscapeMethods(textToEncode: string) {
     return {
         'html-entities.encode - xml, specialChars': () => encode(textToEncode, specialChars),
         '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
-        'he.escape': () => he.escape(textToEncode)
+        'he.escape': () => he.escape(textToEncode),
+        'entities.escapeUTF8': () => entities.escapeUTF8(textToEncode),
+        'entities.escape': () => entities.escapeUTF8(textToEncode)
     };
 }
 
