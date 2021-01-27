@@ -126,6 +126,7 @@ function section(sectionName: string, callback: () => void) {
 }
 
 const indent = '    ';
+const indentWithPointer = '  * ';
 
 function benchmark(name: string, tests: {[key: string]: () => void}, setup?: () => void) {
     console.log(`${indent}${name}\n`);
@@ -142,7 +143,9 @@ function benchmark(name: string, tests: {[key: string]: () => void}, setup?: () 
             return statsA.mean + statsA.moe > statsB.mean + statsB.moe ? 1 : -1;
         });
         for (let i = 0; i < benchmarks.length; i++) {
-            console.log(`${indent}${indent}#${i + 1}: ${String(benchmarks[i])}`);
+            const benchmarkText = String(benchmarks[i]);
+            const secondIndent = benchmarkText.includes('html-entities') ? indentWithPointer : indent;
+            console.log(`${indent}${secondIndent}#${i + 1}: ${benchmarkText}`);
         }
     });
     suite.run();
