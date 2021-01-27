@@ -112,7 +112,7 @@ function createEscapeMethods(textToEncode: string) {
         '(old) XmlEntities.encode': () => xmlEntities.encode(textToEncode),
         'he.escape': () => he.escape(textToEncode),
         'entities.escapeUTF8': () => entities.escapeUTF8(textToEncode),
-        'entities.escape': () => entities.escapeUTF8(textToEncode)
+        'entities.escape': () => entities.escape(textToEncode)
     };
 }
 
