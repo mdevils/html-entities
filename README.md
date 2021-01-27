@@ -45,6 +45,7 @@ Options:
  * `specialChars` encodes only HTML special characters (default).
  * `nonAscii` encodes HTML special characters and everything outside of the [ASCII character range](https://en.wikipedia.org/wiki/ASCII).
  * `nonAsciiPrintable` encodes HTML special characters and everything outiside of the [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
+ * `extensive` encodes all non-printable characters, non-ASCII characters and all characters with named references.
 
 #### numeric
 

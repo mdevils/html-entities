@@ -1,3 +1,8 @@
+2.1.0
+-----
+
+ * Add `extensive` mode to `encode()` method. This mode encodes all non-printable characters, non-ASCII characters and all characters with named references.
+
 2.0.6
 -----
 
