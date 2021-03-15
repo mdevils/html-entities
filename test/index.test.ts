@@ -19,6 +19,9 @@ describe('encode()', () => {
             expect(encode('a\n<>"\'&©∆℞😂\0\x01', {mode: 'specialChars'})).to.equal(
                 'a\n&lt;&gt;&quot;&apos;&amp;©∆℞😂\0\x01'
             );
+            expect(encode('a\n<>"\'&©∆℞😂\0\x01END', {mode: 'specialChars'})).to.equal(
+                'a\n&lt;&gt;&quot;&apos;&amp;©∆℞😂\0\x01END'
+            );
             expect(encode('a\n<>"\'&©∆℞😂\0\x01', {mode: 'nonAscii'})).to.equal(
                 'a\n&lt;&gt;&quot;&apos;&amp;&copy;&#8710;&rx;&#128514;\0\x01'
             );

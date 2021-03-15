@@ -46,17 +46,42 @@ export function encode(
     if (!text) {
         return '';
     }
+
+    const encodeRegExp = encodeRegExps[mode];
+    encodeRegExp.lastIndex = 0;
+
+    let match = encodeRegExp.exec(text);
+
+    if (!match) {
+        return text;
+    }
+
     const references = allNamedReferences[level].characters;
     const isHex = numeric === 'hexadecimal';
 
-    return text.replace(encodeRegExps[mode], function (input) {
+    let lastIndex = 0;
+    let result = '';
+
+    do {
+        if (lastIndex !== match.index) {
+            result += text.substring(lastIndex, match.index);
+        }
+        const input = match[0];
         const entity = references[input];
         if (entity) {
-            return entity;
+            result += entity;
+        } else {
+            const code = input.length > 1 ? getCodePoint(input, 0)! : input.charCodeAt(0);
+            result += (isHex ? '&#x' + code.toString(16) : '&#' + code) + ';';
         }
-        const code = input.length > 1 ? getCodePoint(input, 0)! : input.charCodeAt(0);
-        return (isHex ? '&#x' + code.toString(16) : '&#' + code) + ';';
-    });
+        lastIndex = match.index + input.length;
+    } while ((match = encodeRegExp.exec(text)));
+
+    if (lastIndex !== text.length) {
+        result += text.substring(lastIndex, text.length);
+    }
+
+    return result;
 }
 
 const defaultDecodeOptions: DecodeOptions = {
@@ -100,24 +125,48 @@ export function decode(
     if (!text) {
         return '';
     }
+    const decodeRegExp = decodeRegExps[level][scope];
+
+    let match = decodeRegExp.exec(text);
+
+    if (!match) {
+        return text;
+    }
+
     const references = allNamedReferences[level].entities;
     const isAttribute = scope === 'attribute';
 
-    return text.replace(decodeRegExps[level][scope], function (entity) {
-        if (isAttribute && entity[entity.length - 1] === '=') {
-            return entity;
-        }
-        if (entity[1] != '#') {
-            return references[entity] || entity;
-        }
-        const secondChar = entity[2];
-        const code =
-            secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
+    let lastIndex = 0;
+    let result = '';
 
-        return code >= 0x10ffff
-            ? outOfBoundsChar
-            : code > 65535
-            ? fromCodePoint(code)
-            : fromCharCode(numericUnicodeMap[code] || code);
-    });
+    do {
+        const entity = match[0];
+        if (lastIndex !== match.index) {
+            result += text.substring(lastIndex, match.index);
+        }
+        if (isAttribute && entity[entity.length - 1] === '=') {
+            result += entity;
+        } else if (entity[1] != '#') {
+            result += references[entity] || entity;
+        } else {
+            const secondChar = entity[2];
+            const code =
+                secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
+
+            result +=
+                code >= 0x10ffff
+                    ? outOfBoundsChar
+                    : code > 65535
+                    ? fromCodePoint(code)
+                    : fromCharCode(numericUnicodeMap[code] || code);
+        }
+
+        lastIndex = match.index + entity.length;
+    } while ((match = decodeRegExp.exec(text)));
+
+    if (lastIndex !== text.length) {
+        result += text.substring(lastIndex, text.length);
+    }
+
+    return result;
 }

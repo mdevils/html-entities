@@ -1,3 +1,8 @@
+2.1.1
+-----
+
+ * Speed up both `encode()` and `decode()` methods.
+
 2.1.0
 -----
 
