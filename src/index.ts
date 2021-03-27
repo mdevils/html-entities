@@ -118,6 +118,37 @@ const decodeRegExps: Record<Level, Record<DecodeScope, RegExp>> = {
 const fromCharCode = String.fromCharCode;
 const outOfBoundsChar = fromCharCode(65533);
 
+const defaultDecodeEntityOptions: CommonOptions = {
+    level: 'all'
+};
+
+export function decodeEntity(
+    entity: string | undefined | null,
+    {level = 'all'}: CommonOptions = defaultDecodeEntityOptions
+): string {
+    if (!entity) {
+        return '';
+    }
+
+    const references = allNamedReferences[level].entities;
+    const resultByReference = references[entity];
+    if (resultByReference) {
+        return resultByReference;
+    }
+    if (entity[0] === '&' && entity[1] === '#') {
+        const secondChar = entity[2];
+        const code =
+            secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
+
+        return code >= 0x10ffff
+            ? outOfBoundsChar
+            : code > 65535
+            ? fromCodePoint(code)
+            : fromCharCode(numericUnicodeMap[code] || code);
+    }
+    return entity;
+}
+
 export function decode(
     text: string | undefined | null,
     {level = 'all', scope = level === 'xml' ? 'strict' : 'body'}: DecodeOptions = defaultDecodeOptions

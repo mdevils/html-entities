@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as HE from '../src';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const {encode, decode} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HE;
+const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HE;
 
 describe('encode()', () => {
     it('should handle undefined', () => {
@@ -101,6 +101,44 @@ describe('decode()', () => {
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'strict'})).to.equal('&amp=123&lang=en&amp,&');
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'body'})).to.equal('&=123&lang=en&,&');
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'attribute'})).to.equal('&amp=123&lang=en&,&');
+        });
+    });
+});
+
+describe('decodeEntity()', () => {
+    it('should handle undefined', () => {
+        expect(decodeEntity(undefined)).to.equal('');
+    });
+    it('should handle null', () => {
+        expect(decodeEntity(null)).to.equal('');
+    });
+    it('should handle empty string', () => {
+        expect(decodeEntity('')).to.equal('');
+    });
+    it('should handle invalid numeric entities', () => {
+        expect(decodeEntity('&#2013266066;')).to.equal(String.fromCharCode(65533));
+    });
+    it('should decode numeric entities without semicolon', () => {
+        expect(decodeEntity('&#34')).to.equal('"');
+    });
+    it('should decode incomplete named entities', () => {
+        expect(decodeEntity('&uuml')).to.equal('ü');
+    });
+    it('should decode proper named entities', () => {
+        expect(decodeEntity('&amp;')).to.equal('&');
+    });
+    it('should decode emoji', () => {
+        expect(decodeEntity('&#128514;')).to.equal('😂');
+    });
+    describe('level', () => {
+        it('should decode according to the level', () => {
+            expect(decodeEntity('&rx;', {level: 'all'})).to.equal('℞');
+            expect(decodeEntity('&rx;', {level: 'html5'})).to.equal('℞');
+            expect(decodeEntity('&rx;', {level: 'html4'})).to.equal('&rx;');
+            expect(decodeEntity('&copy;', {level: 'html4'})).to.equal('©');
+            expect(decodeEntity('&rx;', {level: 'xml'})).to.equal('&rx;');
+            expect(decodeEntity('&copy;', {level: 'xml'})).to.equal('&copy;');
+            expect(decodeEntity('&lt;', {level: 'xml'})).to.equal('<');
         });
     });
 });

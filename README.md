@@ -85,6 +85,32 @@ Options:
  * `attribute` emulates behavior of browser when parsing tag attributes: entities without semicolon are replaced when not followed by equality sign `=`.
  * `strict` ignores entities without semicolon.
 
+### decodeEntity(text, options)
+
+Decodes a single HTML entity. Unknown entitiy is left as is.
+
+```js
+import {decodeEntity} from 'html-entities';
+
+decodeEntity('&lt;');
+// -> '<'
+
+decodeEntity('&copy;', {level: 'html5'});
+// -> '©'
+
+decodeEntity('&copy;', {level: 'xml'});
+// -> '&copy;'
+```
+
+Options:
+
+#### level
+
+ * `all` alias to `html5` (default).
+ * `html5` uses `HTML5` named references.
+ * `html4` uses `HTML4` named references.
+ * `xml` uses `XML` named references.
+
 Performance
 -----------
 

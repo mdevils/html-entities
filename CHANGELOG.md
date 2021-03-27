@@ -1,3 +1,8 @@
+2.2.0
+-----
+
+ * A fast `decodeEntity()` method to decode a single HTML entity.
+
 2.1.1
 -----
 
