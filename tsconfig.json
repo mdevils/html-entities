@@ -5,7 +5,8 @@
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "plugins": [{ "transform": "typescript-transform-macros" }]
   },
   "include": ["src"],
   "exclude": ["node_modules", "test"]

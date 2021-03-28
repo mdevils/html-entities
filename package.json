@@ -37,7 +37,9 @@
     "mocha": "^7.1.2",
     "prettier": "^2.1.2",
     "ts-node": "^8.9.1",
-    "typescript": "^3.8.3"
+    "ttypescript": "^1.5.12",
+    "typescript": "^3.8.3",
+    "typescript-transform-macros": "^1.1.1"
   },
   "repository": {
     "type": "git",
@@ -47,12 +49,12 @@
   "typings": "./lib/index.d.ts",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "test": "mocha --recursive -r ts-node/register test/**/*.ts",
+    "test": "TS_NODE_COMPILER=ttypescript mocha --recursive -r ts-node/register test/**/*.ts",
     "test:lib": "TEST_LIB=1 yarn test",
-    "benchmark": "ts-node benchmark/benchmark",
+    "benchmark": "TS_NODE_COMPILER=ttypescript ts-node benchmark/benchmark",
     "lint": "eslint src/**.ts",
     "flow-type-gen": "flowgen --add-flow-header lib/index.d.ts -o lib/index.js.flow",
-    "build": "rm -Rf lib/* && tsc && yarn flow-type-gen && yarn test:lib",
+    "build": "rm -Rf lib/* && ttsc && yarn flow-type-gen && yarn test:lib",
     "prepublishOnly": "yarn build"
   },
   "files": [

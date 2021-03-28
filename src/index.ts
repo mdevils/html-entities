@@ -7,6 +7,36 @@ const allNamedReferences = {
     all: namedReferences.html5
 };
 
+// MACRO from https://github.com/LeDDGroup/typescript-transform-macros
+declare function MACRO<T>(t: T): T;
+
+const replaceUsingRegExp = MACRO(
+    (macroText: string, macroRegExp: RegExp, macroReplacer: (input: string) => string): string => {
+        macroRegExp.lastIndex = 0;
+        let replaceMatch = macroRegExp.exec(macroText);
+        let replaceResult;
+        if (replaceMatch) {
+            replaceResult = '';
+            let replaceLastIndex = 0;
+            do {
+                if (replaceLastIndex !== replaceMatch.index) {
+                    replaceResult += macroText.substring(replaceLastIndex, replaceMatch.index);
+                }
+                const replaceInput = replaceMatch[0];
+                replaceResult += macroReplacer(replaceInput);
+                replaceLastIndex = replaceMatch.index + replaceInput.length;
+            } while ((replaceMatch = macroRegExp.exec(macroText)));
+
+            if (replaceLastIndex !== macroText.length) {
+                replaceResult += macroText.substring(replaceLastIndex);
+            }
+        } else {
+            replaceResult = macroText;
+        }
+        return replaceResult;
+    }
+);
+
 export type Level = 'xml' | 'html4' | 'html5' | 'all';
 
 interface CommonOptions {
@@ -39,6 +69,9 @@ const defaultEncodeOptions: EncodeOptions = {
     numeric: 'decimal'
 };
 
+/**
+ * Encodes all the necessary (specified by `level`) characters in the text.
+ */
 export function encode(
     text: string | undefined | null,
     {mode = 'specialChars', numeric = 'decimal', level = 'all'}: EncodeOptions = defaultEncodeOptions
@@ -48,40 +81,17 @@ export function encode(
     }
 
     const encodeRegExp = encodeRegExps[mode];
-    encodeRegExp.lastIndex = 0;
-
-    let match = encodeRegExp.exec(text);
-
-    if (!match) {
-        return text;
-    }
-
     const references = allNamedReferences[level].characters;
     const isHex = numeric === 'hexadecimal';
 
-    let lastIndex = 0;
-    let result = '';
-
-    do {
-        if (lastIndex !== match.index) {
-            result += text.substring(lastIndex, match.index);
-        }
-        const input = match[0];
-        const entity = references[input];
-        if (entity) {
-            result += entity;
-        } else {
+    return replaceUsingRegExp(text, encodeRegExp, (input) => {
+        let result = references[input];
+        if (!result) {
             const code = input.length > 1 ? getCodePoint(input, 0)! : input.charCodeAt(0);
-            result += (isHex ? '&#x' + code.toString(16) : '&#' + code) + ';';
+            result = (isHex ? '&#x' + code.toString(16) : '&#' + code) + ';';
         }
-        lastIndex = match.index + input.length;
-    } while ((match = encodeRegExp.exec(text)));
-
-    if (lastIndex !== text.length) {
-        result += text.substring(lastIndex, text.length);
-    }
-
-    return result;
+        return result;
+    });
 }
 
 const defaultDecodeOptions: DecodeOptions = {
@@ -89,8 +99,8 @@ const defaultDecodeOptions: DecodeOptions = {
     level: 'all'
 };
 
-const strict = /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+);/g;
-const attribute = /&(?:#\d+|#x[\da-fA-F]+|[0-9a-zA-Z]+)[;=]?/g;
+const strict = /&(?:#\d+|#[xX][\da-fA-F]+|[0-9a-zA-Z]+);/g;
+const attribute = /&(?:#\d+|#[xX][\da-fA-F]+|[0-9a-zA-Z]+)[;=]?/g;
 
 const baseDecodeRegExps: Record<Exclude<Level, 'all'>, Record<DecodeScope, RegExp>> = {
     xml: {
@@ -122,6 +132,40 @@ const defaultDecodeEntityOptions: CommonOptions = {
     level: 'all'
 };
 
+const getDecodedEntity = MACRO(
+    (entity: string, references: Record<string, string>, isAttribute: boolean, isStrict: boolean): string => {
+        let decodeResult = entity;
+        const decodeEntityLastChar = entity[entity.length - 1];
+        if (isAttribute && decodeEntityLastChar === '=') {
+            decodeResult = entity;
+        } else if (isStrict && decodeEntityLastChar !== ';') {
+            decodeResult = entity;
+        } else {
+            const decodeResultByReference = references[entity];
+            if (decodeResultByReference) {
+                decodeResult = decodeResultByReference;
+            } else if (entity[0] === '&' && entity[1] === '#') {
+                const decodeSecondChar = entity[2];
+                const decodeCode =
+                    decodeSecondChar == 'x' || decodeSecondChar == 'X'
+                        ? parseInt(entity.substr(3), 16)
+                        : parseInt(entity.substr(2));
+
+                decodeResult =
+                    decodeCode >= 0x10ffff
+                        ? outOfBoundsChar
+                        : decodeCode > 65535
+                        ? fromCodePoint(decodeCode)
+                        : fromCharCode(numericUnicodeMap[decodeCode] || decodeCode);
+            }
+        }
+        return decodeResult;
+    }
+);
+
+/**
+ * Decodes a single entity.
+ */
 export function decodeEntity(
     entity: string | undefined | null,
     {level = 'all'}: CommonOptions = defaultDecodeEntityOptions
@@ -129,26 +173,12 @@ export function decodeEntity(
     if (!entity) {
         return '';
     }
-
-    const references = allNamedReferences[level].entities;
-    const resultByReference = references[entity];
-    if (resultByReference) {
-        return resultByReference;
-    }
-    if (entity[0] === '&' && entity[1] === '#') {
-        const secondChar = entity[2];
-        const code =
-            secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
-
-        return code >= 0x10ffff
-            ? outOfBoundsChar
-            : code > 65535
-            ? fromCodePoint(code)
-            : fromCharCode(numericUnicodeMap[code] || code);
-    }
-    return entity;
+    return getDecodedEntity(entity, allNamedReferences[level].entities, false, false);
 }
 
+/**
+ * Decodes all entities in the text.
+ */
 export function decode(
     text: string | undefined | null,
     {level = 'all', scope = level === 'xml' ? 'strict' : 'body'}: DecodeOptions = defaultDecodeOptions
@@ -156,48 +186,13 @@ export function decode(
     if (!text) {
         return '';
     }
+
     const decodeRegExp = decodeRegExps[level][scope];
-
-    let match = decodeRegExp.exec(text);
-
-    if (!match) {
-        return text;
-    }
-
     const references = allNamedReferences[level].entities;
     const isAttribute = scope === 'attribute';
+    const isStrict = scope === 'strict';
 
-    let lastIndex = 0;
-    let result = '';
-
-    do {
-        const entity = match[0];
-        if (lastIndex !== match.index) {
-            result += text.substring(lastIndex, match.index);
-        }
-        if (isAttribute && entity[entity.length - 1] === '=') {
-            result += entity;
-        } else if (entity[1] != '#') {
-            result += references[entity] || entity;
-        } else {
-            const secondChar = entity[2];
-            const code =
-                secondChar == 'x' || secondChar == 'X' ? parseInt(entity.substr(3), 16) : parseInt(entity.substr(2));
-
-            result +=
-                code >= 0x10ffff
-                    ? outOfBoundsChar
-                    : code > 65535
-                    ? fromCodePoint(code)
-                    : fromCharCode(numericUnicodeMap[code] || code);
-        }
-
-        lastIndex = match.index + entity.length;
-    } while ((match = decodeRegExp.exec(text)));
-
-    if (lastIndex !== text.length) {
-        result += text.substring(lastIndex, text.length);
-    }
-
-    return result;
+    return replaceUsingRegExp(text, decodeRegExp, (entity) =>
+        getDecodedEntity(entity, references, isAttribute, isStrict)
+    );
 }

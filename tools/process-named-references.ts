@@ -13,7 +13,7 @@ interface LevelData {
 const result: {[key in Level]?: LevelData} = {};
 
 const regExpStart = '/&(?:';
-const regExpCommon = '#\\d+|#x[\\da-fA-F]+|[0-9a-zA-Z]+)';
+const regExpCommon = '#\\d+|#[xX][\\da-fA-F]+|[0-9a-zA-Z]+)';
 const regExpEndBody = ';?/g';
 
 const bodyRegExps: [string, string][] = [];

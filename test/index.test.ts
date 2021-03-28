@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import * as HE from '../src';
+import * as HtmlEntities from '../src';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HE;
+const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HtmlEntities;
 
 describe('encode()', () => {
     it('should handle undefined', () => {
@@ -71,6 +71,12 @@ describe('decode()', () => {
     it('should handle empty string', () => {
         expect(decode('')).to.equal('');
     });
+    it('should handle single ampersand', () => {
+        expect(decode('&')).to.equal('&');
+    });
+    it('should handle incomplete entity', () => {
+        expect(decode('&a')).to.equal('&a');
+    });
     it('should handle invalid numeric entities', () => {
         expect(decode('&#2013266066;')).to.equal(String.fromCharCode(65533));
     });
@@ -101,6 +107,7 @@ describe('decode()', () => {
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'strict'})).to.equal('&amp=123&lang=en&amp,&');
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'body'})).to.equal('&=123&lang=en&,&');
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'attribute'})).to.equal('&amp=123&lang=en&,&');
+            expect(decode('&amp=123', {scope: 'attribute'})).to.equal('&amp=123');
         });
     });
 });
@@ -115,6 +122,13 @@ describe('decodeEntity()', () => {
     it('should handle empty string', () => {
         expect(decodeEntity('')).to.equal('');
     });
+    it('should handle null-char', () => {
+        expect(decodeEntity('&#0;')).to.equal(String.fromCharCode(65533));
+    });
+    it('should handle hex entities', () => {
+        expect(decodeEntity('&#XD06;')).to.equal('ആ');
+        expect(decodeEntity('&#xD06;')).to.equal('ആ');
+    });
     it('should handle invalid numeric entities', () => {
         expect(decodeEntity('&#2013266066;')).to.equal(String.fromCharCode(65533));
     });
@@ -126,6 +140,8 @@ describe('decodeEntity()', () => {
     });
     it('should decode proper named entities', () => {
         expect(decodeEntity('&amp;')).to.equal('&');
+        expect(decodeEntity('&amp')).to.equal('&');
+        expect(decodeEntity('&amp=')).to.equal('&amp=');
     });
     it('should decode emoji', () => {
         expect(decodeEntity('&#128514;')).to.equal('😂');

@@ -1,3 +1,9 @@
+2.3.1
+-----
+
+ * Improve performace of `encode()`, `decode()` and `decodeEntity()` by using function inlining.
+ * Fix decoding HEX HTML entities in some cases.
+
 2.3.0
 -----
 
