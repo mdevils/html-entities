@@ -3,6 +3,7 @@ html-entities
 
 Fastest HTML entities library.
 
+Comes with both TypeScript and Flow types.
 
 Installation
 ------------
