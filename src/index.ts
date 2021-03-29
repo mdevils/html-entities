@@ -69,9 +69,7 @@ const defaultEncodeOptions: EncodeOptions = {
     numeric: 'decimal'
 };
 
-/**
- * Encodes all the necessary (specified by `level`) characters in the text.
- */
+/** Encodes all the necessary (specified by `level`) characters in the text */
 export function encode(
     text: string | undefined | null,
     {mode = 'specialChars', numeric = 'decimal', level = 'all'}: EncodeOptions = defaultEncodeOptions
@@ -163,9 +161,7 @@ const getDecodedEntity = MACRO(
     }
 );
 
-/**
- * Decodes a single entity.
- */
+/** Decodes a single entity */
 export function decodeEntity(
     entity: string | undefined | null,
     {level = 'all'}: CommonOptions = defaultDecodeEntityOptions
@@ -176,9 +172,7 @@ export function decodeEntity(
     return getDecodedEntity(entity, allNamedReferences[level].entities, false, false);
 }
 
-/**
- * Decodes all entities in the text.
- */
+/** Decodes all entities in the text */
 export function decode(
     text: string | undefined | null,
     {level = 'all', scope = level === 'xml' ? 'strict' : 'body'}: DecodeOptions = defaultDecodeOptions

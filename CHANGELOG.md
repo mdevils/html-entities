@@ -1,3 +1,8 @@
+2.3.2
+-----
+
+ * Minimize data files, remove unnecessary files.
+
 2.3.1
 -----
 
