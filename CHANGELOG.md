@@ -1,3 +1,8 @@
+2.3.3
+-----
+
+ * `package.json`: specify `sideEffects: false`
+
 2.3.2
 -----
 
