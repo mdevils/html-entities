@@ -1,5 +1,6 @@
 import {expect} from 'chai';
 import * as HtmlEntities from '../src';
+import {namedReferences} from '../src/named-references';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HtmlEntities;
@@ -108,6 +109,13 @@ describe('decode()', () => {
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'body'})).to.equal('&=123&lang=en&,&');
             expect(decode('&amp=123&lang=en&amp,&amp;', {scope: 'attribute'})).to.equal('&amp=123&lang=en&,&');
             expect(decode('&amp=123', {scope: 'attribute'})).to.equal('&amp=123');
+        });
+    });
+    describe('bugs', () => {
+        it('should properly process html5 entitites those names start with html4 entity name - #77', () => {
+            for (const [entity, value] of Object.entries(namedReferences.html5.entities)) {
+                expect(decode(entity)).to.equal(value);
+            }
         });
     });
 });

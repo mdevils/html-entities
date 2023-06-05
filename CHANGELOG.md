@@ -1,3 +1,8 @@
+2.3.4
+-----
+
+ * Fix the problem decoding HTML5 entities those names are part of HTML4 entities. 
+
 2.3.3
 -----
 
