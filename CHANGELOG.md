@@ -1,3 +1,8 @@
+2.4.0
+-----
+
+* Introduce `nonAsciiPrintableOnly` mode.
+
 2.3.4
 -----
 

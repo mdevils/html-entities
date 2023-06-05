@@ -17,7 +17,7 @@ Usage
 
 ### encode(text, options)
 
-Encodes text replacing HTML special characters (`<>&"'`) plus other character ranges depending on `mode` option value.
+Encodes text replacing HTML special characters (`<>&"'`) and/or other character ranges depending on `mode` option value.
 
 ```js
 import {encode} from 'html-entities';
@@ -30,6 +30,9 @@ encode('< ©', {mode: 'nonAsciiPrintable'});
 
 encode('< ©', {mode: 'nonAsciiPrintable', level: 'xml'});
 // -> '&lt; &#169;'
+
+encode('< > " \' & ©', {mode: 'nonAsciiPrintableOnly', level: 'xml'});
+// -> '< > " \' & &#169;'
 ```
 
 Options:
@@ -44,8 +47,9 @@ Options:
 #### mode
 
  * `specialChars` encodes only HTML special characters (default).
- * `nonAscii` encodes HTML special characters and everything outside of the [ASCII character range](https://en.wikipedia.org/wiki/ASCII).
+ * `nonAscii` encodes HTML special characters and everything outside the [ASCII character range](https://en.wikipedia.org/wiki/ASCII).
  * `nonAsciiPrintable` encodes HTML special characters and everything outiside of the [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
+ * `nonAsciiPrintableOnly` everything outiside of the [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters) keeping HTML special characters intact.
  * `extensive` encodes all non-printable characters, non-ASCII characters and all characters with named references.
 
 #### numeric
