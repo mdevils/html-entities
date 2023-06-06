@@ -1,3 +1,8 @@
+2.3.5
+-----
+
+ * Reduce unnecessarily long RegExps.  
+
 2.3.4
 -----
 

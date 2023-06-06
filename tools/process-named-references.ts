@@ -32,7 +32,7 @@ for (const [level, entityInfos] of getObjectEntries(namedReferences)) {
             bodyRegExpNamedReferences.push(entity.slice(1));
         } else {
             for (const otherEntity of entities) {
-                if (otherEntity !== entity && entity.startsWith(otherEntity)) {
+                if (otherEntity !== entity && otherEntity + ';' !== entity && entity.startsWith(otherEntity)) {
                     conflictingBodyRegExpNamedReferences.push(entity);
                 }
             }
