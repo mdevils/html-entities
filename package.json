@@ -15,6 +15,16 @@
     "name": "Marat Dulin",
     "email": "mdevils@yandex.ru"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mdevils"
+    },
+    {
+      "type": "patreon",
+      "url": "https://patreon.com/mdevils"
+    }
+  ],
   "devDependencies": {
     "@types/benchmark": "^2.1.0",
     "@types/chai": "^4.2.11",
