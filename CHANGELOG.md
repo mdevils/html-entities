@@ -1,3 +1,8 @@
+2.5.0
+-----
+
+* Include source maps into the npm package.
+
 2.4.0
 -----
 
