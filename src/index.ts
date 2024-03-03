@@ -7,35 +7,30 @@ const allNamedReferences = {
     all: namedReferences.html5
 };
 
-// MACRO from https://github.com/LeDDGroup/typescript-transform-macros
-declare function MACRO<T>(t: T): T;
-
-const replaceUsingRegExp = MACRO(
-    (macroText: string, macroRegExp: RegExp, macroReplacer: (input: string) => string): string => {
-        macroRegExp.lastIndex = 0;
-        let replaceMatch = macroRegExp.exec(macroText);
-        let replaceResult;
-        if (replaceMatch) {
-            replaceResult = '';
-            let replaceLastIndex = 0;
-            do {
-                if (replaceLastIndex !== replaceMatch.index) {
-                    replaceResult += macroText.substring(replaceLastIndex, replaceMatch.index);
-                }
-                const replaceInput = replaceMatch[0];
-                replaceResult += macroReplacer(replaceInput);
-                replaceLastIndex = replaceMatch.index + replaceInput.length;
-            } while ((replaceMatch = macroRegExp.exec(macroText)));
-
-            if (replaceLastIndex !== macroText.length) {
-                replaceResult += macroText.substring(replaceLastIndex);
+function replaceUsingRegExp(macroText: string, macroRegExp: RegExp, macroReplacer: (input: string) => string): string {
+    macroRegExp.lastIndex = 0;
+    let replaceMatch = macroRegExp.exec(macroText);
+    let replaceResult;
+    if (replaceMatch) {
+        replaceResult = '';
+        let replaceLastIndex = 0;
+        do {
+            if (replaceLastIndex !== replaceMatch.index) {
+                replaceResult += macroText.substring(replaceLastIndex, replaceMatch.index);
             }
-        } else {
-            replaceResult = macroText;
+            const replaceInput = replaceMatch[0];
+            replaceResult += macroReplacer(replaceInput);
+            replaceLastIndex = replaceMatch.index + replaceInput.length;
+        } while ((replaceMatch = macroRegExp.exec(macroText)));
+
+        if (replaceLastIndex !== macroText.length) {
+            replaceResult += macroText.substring(replaceLastIndex);
         }
-        return replaceResult;
+    } else {
+        replaceResult = macroText;
     }
-);
+    return replaceResult;
+}
 
 export type Level = 'xml' | 'html4' | 'html5' | 'all';
 
@@ -131,36 +126,39 @@ const defaultDecodeEntityOptions: CommonOptions = {
     level: 'all'
 };
 
-const getDecodedEntity = MACRO(
-    (entity: string, references: Record<string, string>, isAttribute: boolean, isStrict: boolean): string => {
-        let decodeResult = entity;
-        const decodeEntityLastChar = entity[entity.length - 1];
-        if (isAttribute && decodeEntityLastChar === '=') {
-            decodeResult = entity;
-        } else if (isStrict && decodeEntityLastChar !== ';') {
-            decodeResult = entity;
-        } else {
-            const decodeResultByReference = references[entity];
-            if (decodeResultByReference) {
-                decodeResult = decodeResultByReference;
-            } else if (entity[0] === '&' && entity[1] === '#') {
-                const decodeSecondChar = entity[2];
-                const decodeCode =
-                    decodeSecondChar == 'x' || decodeSecondChar == 'X'
-                        ? parseInt(entity.substr(3), 16)
-                        : parseInt(entity.substr(2));
+function getDecodedEntity(
+    entity: string,
+    references: Record<string, string>,
+    isAttribute: boolean,
+    isStrict: boolean
+): string {
+    let decodeResult = entity;
+    const decodeEntityLastChar = entity[entity.length - 1];
+    if (isAttribute && decodeEntityLastChar === '=') {
+        decodeResult = entity;
+    } else if (isStrict && decodeEntityLastChar !== ';') {
+        decodeResult = entity;
+    } else {
+        const decodeResultByReference = references[entity];
+        if (decodeResultByReference) {
+            decodeResult = decodeResultByReference;
+        } else if (entity[0] === '&' && entity[1] === '#') {
+            const decodeSecondChar = entity[2];
+            const decodeCode =
+                decodeSecondChar == 'x' || decodeSecondChar == 'X'
+                    ? parseInt(entity.substr(3), 16)
+                    : parseInt(entity.substr(2));
 
-                decodeResult =
-                    decodeCode >= 0x10ffff
-                        ? outOfBoundsChar
-                        : decodeCode > 65535
-                        ? fromCodePoint(decodeCode)
-                        : fromCharCode(numericUnicodeMap[decodeCode] || decodeCode);
-            }
+            decodeResult =
+                decodeCode >= 0x10ffff
+                    ? outOfBoundsChar
+                    : decodeCode > 65535
+                    ? fromCodePoint(decodeCode)
+                    : fromCharCode(numericUnicodeMap[decodeCode] || decodeCode);
         }
-        return decodeResult;
     }
-);
+    return decodeResult;
+}
 
 /** Decodes a single entity */
 export function decodeEntity(

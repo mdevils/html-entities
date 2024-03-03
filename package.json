@@ -47,9 +47,7 @@
     "prettier": "^2.1.2",
     "terser": "^5.6.1",
     "ts-node": "^8.9.1",
-    "ttypescript": "^1.5.15",
-    "typescript": "^3.8.3",
-    "typescript-transform-macros": "^1.1.1"
+    "typescript": "^3.8.3"
   },
   "repository": {
     "type": "git",
@@ -60,14 +58,15 @@
   "typings": "./lib/index.d.ts",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "test": "TS_NODE_COMPILER=ttypescript mocha --recursive -r ts-node/register test/**/*.ts",
+    "test": "mocha --recursive -r ts-node/register test/**/*.ts",
+    "test:watch": "mocha -w --recursive -r ts-node/register test/**/*.ts",
     "test:lib": "TEST_LIB=1 npm run test",
-    "benchmark": "TS_NODE_COMPILER=ttypescript ts-node benchmark/benchmark",
+    "benchmark": "ts-node benchmark/benchmark",
     "lint": "eslint src/**.ts",
     "flow-type-gen": "flowgen --add-flow-header lib/index.d.ts -o lib/index.js.flow",
     "remove-unused-declarations": "find lib -type f \\( -name '*.d.ts' ! -name index.d.ts \\) | xargs rm",
-    "minimize-lib-files": "find lib -type f \\( -name '*.js' ! -name index.js \\) | while read fn; do terser $fn -o $fn; done",
-    "build": "rm -Rf lib/* && ttsc && npm run remove-unused-declarations && npm run flow-type-gen && npm run minimize-lib-files && npm run test:lib",
+    "minimize-lib-files": "cd lib && find . -type f \\( -name '*.js' \\) | while read fn; do terser --source-map \"content='$fn.map',filename='$fn.map',url='$fn.map'\" $fn -o $fn; done",
+    "build": "rm -Rf lib/* && tsc && npm run remove-unused-declarations && npm run flow-type-gen && npm run minimize-lib-files && npm run test:lib",
     "prepublishOnly": "npm run build"
   },
   "files": [

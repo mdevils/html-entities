@@ -6,7 +6,7 @@
     "outDir": "./lib",
     "strict": true,
     "resolveJsonModule": true,
-    "plugins": [{ "transform": "typescript-transform-macros" }]
+    "sourceMap": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "test"]
