@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as namedReferences from '../src/named-references.source.json';
+import * as namedReferences from './named-references.source.json';
 
 const getObjectEntries = Object.entries as <T>(obj: T) => [keyof T, T[keyof T]][];
 
