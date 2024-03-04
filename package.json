@@ -71,6 +71,7 @@
   },
   "files": [
     "lib",
+    "src",
     "LICENSE"
   ],
   "husky": {
