@@ -28,19 +28,23 @@ function createRequireTests(modules: Record<string, string>) {
     }, {} as Record<string, () => void>);
 }
 
-function createHtml5EncodeMethods(textToEncode: string) {
+function createHtml5EncodeMethodsNonAscii(textToEncode: string) {
     const heOptions = {useNamedReferences: true};
     const nonAsciiPrintable: EncodeOptions = {level: 'html5', mode: 'nonAsciiPrintable'};
-    const extensive: EncodeOptions = {level: 'html5', mode: 'extensive'};
     const nonAscii: EncodeOptions = {level: 'html5', mode: 'nonAscii'};
     return {
         'html-entities.encode - html5, nonAscii': () => encode(textToEncode, nonAscii),
         'html-entities.encode - html5, nonAsciiPrintable': () => encode(textToEncode, nonAsciiPrintable),
-        'html-entities.encode - html5, extensive': () => encode(textToEncode, extensive),
-        '(old) Html5Entities.encodeNonASCII': () => html5Entities.encodeNonASCII(textToEncode),
-        'entities.encodeHTML': () => entities.encodeHTML(textToEncode),
         'entities.encodeNonAsciiHTML': () => entities.encodeNonAsciiHTML(textToEncode),
         'he.encode': () => he.encode(textToEncode, heOptions)
+    };
+}
+
+function createHtml5EncodeMethods(textToEncode: string) {
+    const extensive: EncodeOptions = {level: 'html5', mode: 'extensive'};
+    return {
+        'html-entities.encode - html5, extensive': () => encode(textToEncode, extensive),
+        'entities.encodeHTML': () => entities.encodeHTML(textToEncode)
     };
 }
 
@@ -178,6 +182,19 @@ section('HTML5', () => {
         )
     );
     benchmark(
+        'Encode non-ASCII test',
+        createHtml5EncodeMethodsNonAscii(
+            `
+                This is a test encode benchmark.
+                Should contain <>&' and ".
+                Some control characters: \x01.
+                Some HTML5-only named references: ℞ ⪶.
+                And some unicode symbols: ©, ∆, —, 😂.
+                Good luck.
+            `
+        )
+    );
+    benchmark(
         'Decode test',
         createHtml5DecodeMethods(
             `
@@ -191,7 +208,6 @@ section('HTML5', () => {
         )
     );
 });
-
 section('HTML4', () => {
     benchmark(
         'Encode test',

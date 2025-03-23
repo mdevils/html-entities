@@ -35,7 +35,7 @@
     "@typescript-eslint/parser": "^4.6.1",
     "benchmark": "^2.1.4",
     "chai": "^4.2.0",
-    "entities": "^4.5.0",
+    "entities": "^6.0.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",

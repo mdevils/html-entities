@@ -7,31 +7,6 @@ const allNamedReferences = {
     all: namedReferences.html5
 };
 
-function replaceUsingRegExp(macroText: string, macroRegExp: RegExp, macroReplacer: (input: string) => string): string {
-    macroRegExp.lastIndex = 0;
-    let replaceMatch = macroRegExp.exec(macroText);
-    let replaceResult;
-    if (replaceMatch) {
-        replaceResult = '';
-        let replaceLastIndex = 0;
-        do {
-            if (replaceLastIndex !== replaceMatch.index) {
-                replaceResult += macroText.substring(replaceLastIndex, replaceMatch.index);
-            }
-            const replaceInput = replaceMatch[0];
-            replaceResult += macroReplacer(replaceInput);
-            replaceLastIndex = replaceMatch.index + replaceInput.length;
-        } while ((replaceMatch = macroRegExp.exec(macroText)));
-
-        if (replaceLastIndex !== macroText.length) {
-            replaceResult += macroText.substring(replaceLastIndex);
-        }
-    } else {
-        replaceResult = macroText;
-    }
-    return replaceResult;
-}
-
 export type Level = 'xml' | 'html4' | 'html5' | 'all';
 
 interface CommonOptions {
@@ -53,10 +28,10 @@ export interface DecodeOptions extends CommonOptions {
 
 const encodeRegExps: Record<EncodeMode, RegExp> = {
     specialChars: /[<>'"&]/g,
-    nonAscii: /[<>'"&\u0080-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g,
-    nonAsciiPrintable: /[<>'"&\x01-\x08\x11-\x15\x17-\x1F\x7f-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g,
-    nonAsciiPrintableOnly: /[\x01-\x08\x11-\x15\x17-\x1F\x7f-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g,
-    extensive: /[\x01-\x0c\x0e-\x1f\x21-\x2c\x2e-\x2f\x3a-\x40\x5b-\x60\x7b-\x7d\x7f-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g
+    nonAscii: /[<>'"&\u0080-\uD7FF\uE000-\uFFFF\uDC00-\uDFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g,
+    nonAsciiPrintable: /[<>'"&\x01-\x08\x11-\x15\x17-\x1F\x7f-\uD7FF\uE000-\uFFFF\uDC00-\uDFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g,
+    nonAsciiPrintableOnly: /[\x01-\x08\x11-\x15\x17-\x1F\x7f-\uD7FF\uE000-\uFFFF\uDC00-\uDFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g,
+    extensive: /[\x01-\x0c\x0e-\x1f\x21-\x2c\x2e-\x2f\x3a-\x40\x5b-\x60\x7b-\x7d\x7f-\uD7FF\uE000-\uFFFF\uDC00-\uDFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]?/g
 };
 
 const defaultEncodeOptions: EncodeOptions = {
@@ -78,7 +53,7 @@ export function encode(
     const references = allNamedReferences[level].characters;
     const isHex = numeric === 'hexadecimal';
 
-    return replaceUsingRegExp(text, encodeRegExp, (input) => {
+    return text.replace(encodeRegExp, (input) => {
         let result = references[input];
         if (!result) {
             const code = input.length > 1 ? getCodePoint(input, 0)! : input.charCodeAt(0);
@@ -185,7 +160,5 @@ export function decode(
     const isAttribute = scope === 'attribute';
     const isStrict = scope === 'strict';
 
-    return replaceUsingRegExp(text, decodeRegExp, (entity) =>
-        getDecodedEntity(entity, references, isAttribute, isStrict)
-    );
+    return text.replace(decodeRegExp, (entity) => getDecodedEntity(entity, references, isAttribute, isStrict));
 }
