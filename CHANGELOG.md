@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.5.3](https://github.com/mdevils/html-entities/compare/v2.5.2...v2.5.3) (2025-03-23)
+
+
+### Bug Fixes
+
+* improve encoding performance ([f4d14e2](https://github.com/mdevils/html-entities/commit/f4d14e2bd3038d8af5b98321c5021ccc346fa936))
+
 2.5.0
 -----
 
