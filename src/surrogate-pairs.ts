@@ -7,6 +7,7 @@ export const fromCodePoint =
         );
     };
 
+// @ts-expect-error - String.prototype.codePointAt might not exist in older node versions
 export const getCodePoint = String.prototype.codePointAt
     ? function (input: string, position: number) {
           return input.codePointAt(position);

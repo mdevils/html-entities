@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import * as HtmlEntities from '../src';
 import {namedReferences} from '../src/named-references';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HtmlEntities;
 
 describe('encode()', () => {
@@ -14,6 +14,9 @@ describe('encode()', () => {
     });
     it('should handle empty string', () => {
         expect(encode('')).to.equal('');
+    });
+    it('should handle numbers (backwards compatibility)', () => {
+        expect(encode(1 as unknown as string)).to.equal('1');
     });
     describe('mode', () => {
         it('should only match necessary entities', () => {

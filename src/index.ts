@@ -53,7 +53,7 @@ export function encode(
     const references = allNamedReferences[level].characters;
     const isHex = numeric === 'hexadecimal';
 
-    return text.replace(encodeRegExp, (input) => {
+    return String.prototype.replace.call(text, encodeRegExp, (input) => {
         let result = references[input];
         if (!result) {
             const code = input.length > 1 ? getCodePoint(input, 0)! : input.charCodeAt(0);
