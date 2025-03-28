@@ -5,6 +5,12 @@ import {namedReferences} from '../src/named-references';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const {encode, decode, decodeEntity} = require(process.env.TEST_LIB ? '../lib' : '../src') as typeof HtmlEntities;
 
+describe('package', () => {
+    it('should have no dependencies', () => {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        expect(require('../package.json').dependencies).to.equal(undefined);
+    });
+});
 describe('encode()', () => {
     it('should handle undefined', () => {
         expect(decode(undefined)).to.equal('');
