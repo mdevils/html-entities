@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import * as Benchmark from 'benchmark';
 import * as entities from 'entities';
 import * as he from 'he';
@@ -16,14 +17,17 @@ type GlobalWithRequire = typeof global & {require: typeof require};
 
 function cleanNodeModulesCache() {
     const cache = (global as GlobalWithRequire).require.cache;
-    for (const cacheKey of Object.keys(cache)) {
+    for (const cacheKey in cache) {
         delete cache[cacheKey];
     }
 }
 
 function createRequireTests(modules: Record<string, string>) {
     return Object.keys(modules).reduce((result, moduleName) => {
-        result[moduleName] = () => require(modules[moduleName]);
+        result[moduleName] = function() {
+            require(modules[moduleName]);
+            cleanNodeModulesCache();
+        };
         return result;
     }, {} as Record<string, () => void>);
 }
@@ -132,14 +136,14 @@ function section(sectionName: string, callback: () => void) {
 const indent = '    ';
 const indentWithPointer = '  * ';
 
-function benchmark(name: string, tests: {[key: string]: () => void}, setup?: () => void) {
+function benchmark(name: string, tests: {[key: string]: () => void}) {
     console.log(`${indent}${name}\n`);
     const suite = new Benchmark.Suite();
     for (const [testName, testCallback] of Object.entries(tests)) {
         if (!includeOldTests && testName.indexOf('(old)') !== -1) {
             continue;
         }
-        suite.add(testName, testCallback, {setup});
+        suite.add(testName, testCallback);
     }
     suite.on('complete', function (this: Benchmark.Suite) {
         const benchmarks = Array.from((this as unknown) as Benchmark[]);
@@ -160,11 +164,11 @@ section('Common', () => {
     benchmark(
         'Initialization / Load speed',
         createRequireTests({
-            'html-entities': '..',
+            'html-entities': '../lib',
             entities: 'entities',
             he: 'he'
         }),
-        cleanNodeModulesCache
+        // cleanNodeModulesCache
     );
 });
 section('HTML5', () => {

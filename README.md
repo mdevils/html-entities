@@ -128,68 +128,71 @@ Common
 
     Initialization / Load speed
 
-      * #1: html-entities x 2,632,942 ops/sec ±3.71% (72 runs sampled)
-        #2: entities x 1,379,154 ops/sec ±5.87% (75 runs sampled)
-        #3: he x 1,334,035 ops/sec ±3.14% (83 runs sampled)
+        #1: he x 516 ops/sec ±5.71% (78 runs sampled)
+      * #2: html-entities x 407 ops/sec ±5.64% (81 runs sampled)
+        #3: entities x 352 ops/sec ±4.16% (80 runs sampled)
 
 HTML5
 
     Encode test
 
-      * #1: html-entities.encode - html5, nonAscii x 415,806 ops/sec ±0.73% (85 runs sampled)
-      * #2: html-entities.encode - html5, nonAsciiPrintable x 401,420 ops/sec ±0.35% (93 runs sampled)
-        #3: entities.encodeNonAsciiHTML x 401,235 ops/sec ±0.41% (88 runs sampled)
-        #4: entities.encodeHTML x 284,868 ops/sec ±0.45% (93 runs sampled)
-      * #5: html-entities.encode - html5, extensive x 237,613 ops/sec ±0.42% (93 runs sampled)
-        #6: he.encode x 91,459 ops/sec ±0.50% (84 runs sampled)
+      * #1: html-entities.encode - html5, extensive x 437,236 ops/sec ±0.90% (98 runs sampled)
+        #2: entities.encodeHTML x 335,714 ops/sec ±0.87% (92 runs sampled)
+
+    Encode non-ASCII test
+
+      * #1: html-entities.encode - html5, nonAscii x 749,246 ops/sec ±0.61% (96 runs sampled)
+        #2: entities.encodeNonAsciiHTML x 706,984 ops/sec ±1.06% (98 runs sampled)
+      * #3: html-entities.encode - html5, nonAsciiPrintable x 691,193 ops/sec ±4.47% (90 runs sampled)
+        #4: he.encode x 141,105 ops/sec ±0.87% (92 runs sampled)
 
     Decode test
 
-        #1: entities.decodeHTMLStrict x 614,920 ops/sec ±0.41% (89 runs sampled)
-        #2: entities.decodeHTML x 577,698 ops/sec ±0.44% (90 runs sampled)
-      * #3: html-entities.decode - html5, strict x 323,680 ops/sec ±0.39% (92 runs sampled)
-      * #4: html-entities.decode - html5, body x 297,548 ops/sec ±0.45% (91 runs sampled)
-      * #5: html-entities.decode - html5, attribute x 293,617 ops/sec ±0.37% (94 runs sampled)
-        #6: he.decode x 145,383 ops/sec ±0.36% (94 runs sampled)
+        #1: entities.decodeHTML x 678,595 ops/sec ±1.28% (92 runs sampled)
+        #2: entities.decodeHTMLStrict x 684,372 ops/sec ±2.76% (82 runs sampled)
+      * #3: html-entities.decode - html5, strict x 485,664 ops/sec ±0.80% (94 runs sampled)
+      * #4: html-entities.decode - html5, body x 463,074 ops/sec ±1.11% (93 runs sampled)
+      * #5: html-entities.decode - html5, attribute x 456,185 ops/sec ±2.24% (91 runs sampled)
+        #6: he.decode x 302,668 ops/sec ±2.73% (90 runs sampled)
 
 HTML4
 
     Encode test
 
-      * #1: html-entities.encode - html4, nonAscii x 379,799 ops/sec ±0.29% (96 runs sampled)
-      * #2: html-entities.encode - html4, nonAsciiPrintable x 350,003 ops/sec ±0.42% (92 runs sampled)
-      * #3: html-entities.encode - html4, extensive x 169,759 ops/sec ±0.43% (90 runs sampled)
+      * #1: html-entities.encode - html4, nonAscii x 737,475 ops/sec ±1.04% (95 runs sampled)
+      * #2: html-entities.encode - html4, nonAsciiPrintable x 649,866 ops/sec ±4.28% (79 runs sampled)
+      * #3: html-entities.encode - html4, extensive x 202,337 ops/sec ±3.66% (64 runs sampled)
 
     Decode test
 
-      * #1: html-entities.decode - html4, attribute x 291,048 ops/sec ±0.42% (92 runs sampled)
-      * #2: html-entities.decode - html4, strict x 287,110 ops/sec ±0.56% (93 runs sampled)
-      * #3: html-entities.decode - html4, body x 285,529 ops/sec ±0.57% (93 runs sampled)
+      * #1: html-entities.decode - html4, attribute x 529,674 ops/sec ±0.90% (90 runs sampled)
+      * #2: html-entities.decode - html4, body x 499,135 ops/sec ±2.27% (80 runs sampled)
+      * #3: html-entities.decode - html4, strict x 489,806 ops/sec ±4.37% (84 runs sampled)
 
 XML
 
     Encode test
 
-        #1: entities.encodeXML x 418,561 ops/sec ±0.80% (90 runs sampled)
-      * #2: html-entities.encode - xml, nonAsciiPrintable x 402,868 ops/sec ±0.30% (89 runs sampled)
-      * #3: html-entities.encode - xml, nonAscii x 403,669 ops/sec ±7.87% (83 runs sampled)
-      * #4: html-entities.encode - xml, extensive x 237,766 ops/sec ±0.45% (93 runs sampled)
+      * #1: html-entities.encode - xml, nonAscii x 823,097 ops/sec ±0.75% (81 runs sampled)
+      * #2: html-entities.encode - xml, nonAsciiPrintable x 764,638 ops/sec ±0.93% (93 runs sampled)
+        #3: entities.encodeXML x 672,186 ops/sec ±1.51% (92 runs sampled)
+      * #4: html-entities.encode - xml, extensive x 376,870 ops/sec ±0.76% (77 runs sampled)
 
     Decode test
 
-        #1: entities.decodeXML x 888,700 ops/sec ±0.48% (93 runs sampled)
-      * #2: html-entities.decode - xml, strict x 353,127 ops/sec ±0.40% (92 runs sampled)
-      * #3: html-entities.decode - xml, body x 355,796 ops/sec ±1.58% (86 runs sampled)
-      * #4: html-entities.decode - xml, attribute x 369,454 ops/sec ±8.74% (84 runs sampled)
+        #1: entities.decodeXML x 930,758 ops/sec ±2.90% (90 runs sampled)
+      * #2: html-entities.decode - xml, body x 617,321 ops/sec ±0.74% (83 runs sampled)
+      * #3: html-entities.decode - xml, attribute x 611,598 ops/sec ±0.50% (92 runs sampled)
+      * #4: html-entities.decode - xml, strict x 607,191 ops/sec ±2.30% (85 runs sampled)
 
 Escaping
 
     Escape test
 
-        #1: entities.escapeUTF8 x 1,308,013 ops/sec ±0.37% (91 runs sampled)
-      * #2: html-entities.encode - xml, specialChars x 1,258,760 ops/sec ±1.00% (93 runs sampled)
-        #3: he.escape x 822,569 ops/sec ±0.24% (94 runs sampled)
-        #4: entities.escape x 434,243 ops/sec ±0.34% (91 runs sampled)
+        #1: entities.escapeUTF8 x 1,930,874 ops/sec ±0.80% (95 runs sampled)
+        #2: he.escape x 1,717,522 ops/sec ±0.75% (84 runs sampled)
+      * #3: html-entities.encode - xml, specialChars x 1,611,374 ops/sec ±1.30% (92 runs sampled)
+        #4: entities.escape x 673,710 ops/sec ±1.30% (94 runs sampled)
 ```
 
 License
