@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/mdevils/html-entities/compare/v2.5.6...v2.6.0) (2025-03-30)
+
+
+### Features
+
+* refactor build to add ESM export ([1e7071a](https://github.com/mdevils/html-entities/commit/1e7071aa53a26de8c408c0456bc1313cd8b8bd53))
+* support ESM, fixes [#95](https://github.com/mdevils/html-entities/issues/95) ([a466440](https://github.com/mdevils/html-entities/commit/a4664403c3a2df66c4c29a5253d510a75967f103))
+
 ### [2.5.6](https://github.com/mdevils/html-entities/compare/v2.5.5...v2.5.6) (2025-03-30)
 
 
