@@ -50,9 +50,7 @@ describe('lib', () => {
             });
             it('should check integration app/package of the type', async () => {
                 const appPath = `test/test-apps/${process.env.TEST_DIST}`;
-                if (process.env.TEST_DIST === 'esm') {
-                    await ensureSelfLink(appPath);
-                }
+                await ensureSelfLink(appPath);
                 await exec(`node ${path.join(appPath, 'test.js')}`);
             });
         });

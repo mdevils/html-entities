@@ -3,5 +3,8 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-  }
+    "declaration": true,
+    "skipLibCheck": true,
+    "outDir": "./dist/esm"
+  },
 }
