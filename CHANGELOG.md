@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.6](https://github.com/mdevils/html-entities/compare/v2.5.5...v2.5.6) (2025-03-30)
+
+
+### Bug Fixes
+
+* significantly reduce package size ([72c7819](https://github.com/mdevils/html-entities/commit/72c78196a24c7c942367aeac248cd0f73a3e8b20))
+
 ### [2.5.5](https://github.com/mdevils/html-entities/compare/v2.5.4...v2.5.5) (2025-03-28)
 
 
