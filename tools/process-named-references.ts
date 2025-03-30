@@ -32,7 +32,6 @@ const processedEntities: Set<string> = new Set();
 for (const [level, entityInfos] of getObjectEntries(namedReferences)) {
     const conflictingBodyRegExpNamedReferences: string[] = [];
     const bodyRegExpNamedReferences: string[] = [];
-    // const levelData: LevelData = {entities: {}, characters: {}};
     const entities: string[] = Object.keys(entityInfos);
     const strictEntities = new Map(
         Object.entries(entityInfos)

@@ -156,6 +156,9 @@ function benchmark(name: string, tests: {[key: string]: () => void}) {
             console.log(`${indent}${secondIndent}#${i + 1}: ${benchmarkText}`);
         }
     });
+    suite.on('error', function (event: {target: Benchmark}) {
+        console.error(event.target.error);
+    });
     suite.run();
     console.log();
 }

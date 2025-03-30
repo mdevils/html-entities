@@ -29,12 +29,10 @@
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@types/benchmark": "^2.1.0",
-    "@types/chai": "^4.2.11",
     "@types/he": "^1.1.1",
-    "@types/mocha": "^7.0.2",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.14",
     "benchmark": "^2.1.4",
-    "chai": "^4.2.0",
     "entities": "^6.0.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
@@ -42,11 +40,11 @@
     "flowgen": "^1.13.0",
     "he": "^1.2.0",
     "husky": "^4.3.6",
-    "mocha": "^9.2.2",
     "prettier": "^3.5.3",
     "standard-version": "^9.5.0",
-    "terser": "^5.6.1",
-    "ts-node": "^10.9.2",
+    "ts-jest": "^29.3.0",
+    "tshy": "^3.0.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0"
   },
@@ -55,24 +53,25 @@
     "url": "https://github.com/mdevils/html-entities.git"
   },
   "sideEffects": false,
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "typings": "./dist/commonjs/index.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "test": "mocha --recursive -r ts-node/register test/**/*.ts",
-    "test:watch": "mocha -w --recursive -r ts-node/register test/**/*.ts",
-    "test:lib": "TEST_LIB=1 npm run test",
-    "benchmark": "ts-node benchmark/benchmark",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:dist": "npm run test:dist:commonjs && npm run test:dist:esm",
+    "test:dist:commonjs": "TEST_DIST=commonjs npm run test",
+    "test:dist:esm": "TEST_DIST=esm node --experimental-vm-modules node_modules/.bin/jest",
+    "benchmark": "tsx benchmark/benchmark",
     "lint": "eslint src/**.ts",
-    "flow-type-gen": "flowgen --add-flow-header lib/index.d.ts -o lib/index.js.flow",
-    "remove-unused-declarations": "find lib -type f \\( -name '*.d.ts' ! -name index.d.ts \\) | xargs rm",
-    "minimize-lib-files": "cd lib && find . -type f \\( -name '*.js' \\) | while read fn; do terser --source-map \"content='$fn.map',filename='$fn.map',url='$fn.map'\" $fn -o $fn; done",
-    "build": "rm -Rf lib/* && tsc && npm run remove-unused-declarations && npm run flow-type-gen && npm run minimize-lib-files && npm run test:lib",
-    "prepublishOnly": "npm run build",
+    "flow-type-gen": "flowgen --add-flow-header dist/commonjs/index.d.ts -o dist/commonjs/index.js.flow && flowgen --add-flow-header dist/esm/index.d.ts -o dist/esm/index.js.flow",
+    "remove-unused-declarations": "find dist -type f \\( -name '*.d.ts' ! -name index.d.ts \\) | xargs rm",
+    "build": "rm -Rf dist && tsc --noEmit && tshy && npm run remove-unused-declarations && npm run flow-type-gen",
+    "prepublishOnly": "npm run build && npm run test && npm run test:dist",
     "release": "standard-version"
   },
   "files": [
-    "lib",
+    "dist",
     "src",
     "LICENSE"
   ],
@@ -81,5 +80,27 @@
       "pre-commit": "npm run lint && npm run test"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "module": "./dist/esm/index.js"
 }

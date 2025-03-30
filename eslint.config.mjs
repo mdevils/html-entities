@@ -19,6 +19,7 @@ export default tseslint.config(
             "no-duplicate-imports": ["error", {"includeExports": true}],
             "arrow-body-style": ["error", "as-needed"],
             "no-restricted-globals": ["error", "name", "toString", "pending"],
+            "import/no-unresolved": "off",
             "import/order": ["error", {
                 "groups": ["builtin", "external", "internal", "sibling"],
                 "pathGroupsExcludedImportTypes": ["parent", "sibling", "index"],
@@ -27,6 +28,7 @@ export default tseslint.config(
                     "caseInsensitive": true
                 }
             }]
-        }
+        },
+        ignores: ["dist"]
     }
 );

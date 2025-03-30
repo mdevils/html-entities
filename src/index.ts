@@ -1,6 +1,6 @@
-import {bodyRegExps, namedReferences} from './named-references';
-import {numericUnicodeMap} from './numeric-unicode-map';
-import {fromCodePoint, getCodePoint} from './surrogate-pairs';
+import {bodyRegExps, namedReferences} from './named-references.js';
+import {numericUnicodeMap} from './numeric-unicode-map.js';
+import {fromCodePoint, getCodePoint} from './surrogate-pairs.js';
 
 const allNamedReferences = {
     ...namedReferences,
