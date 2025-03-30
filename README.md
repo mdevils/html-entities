@@ -1,9 +1,17 @@
 html-entities
 =============
 
-Fastest HTML entities library.
+Fast and lightweight HTML entities library supporting all HTML standards. 
 
 Comes with both TypeScript and Flow types.
+
+* [Installation](#installation)
+* [Usage](#usage)
+  * [encode(text, options)](#encodetext-options)
+  * [decode(text, options)](#decodetext-options)
+  * [decodeEntity(text, options)](#decodeentitytext-options)
+* [Package Size comparison](#package-size-comparison)
+* [Performance comparison](#performance-comparison)
 
 Installation
 ------------
@@ -116,8 +124,15 @@ Options:
  * `html4` uses `HTML4` named references.
  * `xml` uses `XML` named references.
 
-Performance
------------
+Package Size comparison
+-----------------------
+
+* `html-entities` - 132 kB
+* `entities` - 540 kB
+* `he` - 124 kB
+
+Performance comparison
+----------------------
 
 Statistically significant comparison with other libraries using `benchmark.js`.
 Results by this library are marked with `*`.
