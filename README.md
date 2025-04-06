@@ -1,142 +1,145 @@
-html-entities
-=============
+# html-entities
 
-Fast and lightweight HTML entities library supporting all HTML standards. 
+[![npm version](https://img.shields.io/npm/v/html-entities.svg)](https://www.npmjs.com/package/html-entities)
+[![License](https://img.shields.io/npm/l/html-entities.svg)](https://github.com/mdevils/html-entities/blob/main/LICENSE)
+[![Types](https://img.shields.io/npm/types/html-entities.svg)](https://www.npmjs.com/package/html-entities)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/html-entities)](https://bundlephobia.com/package/html-entities)
 
-Comes with both TypeScript and Flow types.
+Fast and lightweight HTML entities library for all HTML standards (HTML5, HTML4, XML).
 
-* [Installation](#installation)
-* [Usage](#usage)
-  * [encode(text, options)](#encodetext-options)
-  * [decode(text, options)](#decodetext-options)
-  * [decodeEntity(text, options)](#decodeentitytext-options)
-* [Package Size comparison](#package-size-comparison)
-* [Performance comparison](#performance-comparison)
+## Features
 
-Installation
-------------
+- 🚀 **Fast performance** - optimized for speed (see [benchmarks](#performance-comparison))
+- 📦 **Lightweight** - small package size (132 kB, see [comparison](#package-size-comparison))
+- 🔄 **Standards compliant** - supports HTML5, HTML4, and XML entities
+- 📄 **Type safe** - includes TypeScript and Flow types
+- 🔌 **Dual ESM/CJS support** - works with both module systems
+
+## Installation
 
 ```bash
-$ npm install html-entities
+# NPM
+npm install html-entities
+
+# Yarn
+yarn add html-entities
+
+# pnpm
+pnpm add html-entities
 ```
 
-Usage
------
+## Usage
 
 ### encode(text, options)
 
-Encodes text replacing HTML special characters (`<>&"'`) and/or other character ranges depending on `mode` option value.
+Encodes text by replacing HTML special characters (`<>&"'`) and/or other character ranges depending on `mode` option.
 
 ```js
-import {encode} from 'html-entities';
+import { encode } from 'html-entities';
 
+// Basic usage (defaults to HTML5 special chars only)
 encode('< > " \' & © ∆');
 // -> '&lt; &gt; &quot; &apos; &amp; © ∆'
 
-encode('< ©', {mode: 'nonAsciiPrintable'});
+// Encode non-ASCII printable characters
+encode('< ©', { mode: 'nonAsciiPrintable' });
 // -> '&lt; &copy;'
 
-encode('< ©', {mode: 'nonAsciiPrintable', level: 'xml'});
+// Specify encoding level (XML) and mode
+encode('< ©', { mode: 'nonAsciiPrintable', level: 'xml' });
 // -> '&lt; &#169;'
 
-encode('< > " \' & ©', {mode: 'nonAsciiPrintableOnly', level: 'xml'});
+// Encode only non-ASCII characters, leaving special chars intact
+encode('< > " \' & ©', { mode: 'nonAsciiPrintableOnly', level: 'xml' });
 // -> '< > " \' & &#169;'
 ```
 
-Options:
+#### Options
 
-#### level
+##### `level`
+- `all` or `html5` (default) - Uses HTML5 named references
+- `html4` - Uses HTML4 named references
+- `xml` - Uses XML named references
 
- * `all` alias to `html5` (default).
- * `html5` uses `HTML5` named references.
- * `html4` uses `HTML4` named references.
- * `xml` uses `XML` named references.
+##### `mode`
+- `specialChars` (default) - Encodes only HTML special characters
+- `nonAscii` - Encodes HTML special characters and everything outside the [ASCII range](https://en.wikipedia.org/wiki/ASCII)
+- `nonAsciiPrintable` - Encodes HTML special characters and everything outside [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters)
+- `nonAsciiPrintableOnly` - Encodes everything outside ASCII printable range, keeping HTML special characters intact
+- `extensive` - Encodes all non-printable characters, non-ASCII characters and all characters with named references
 
-#### mode
-
- * `specialChars` encodes only HTML special characters (default).
- * `nonAscii` encodes HTML special characters and everything outside the [ASCII character range](https://en.wikipedia.org/wiki/ASCII).
- * `nonAsciiPrintable` encodes HTML special characters and everything outiside of the [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters).
- * `nonAsciiPrintableOnly` everything outiside of the [ASCII printable characters](https://en.wikipedia.org/wiki/ASCII#Printable_characters) keeping HTML special characters intact.
- * `extensive` encodes all non-printable characters, non-ASCII characters and all characters with named references.
-
-#### numeric
-
- * `decimal` uses decimal numbers when encoding html entities. i.e. `&#169;` (default).
- * `hexadecimal` uses hexadecimal numbers when encoding html entities. i.e. `&#xa9;`.
-
+##### `numeric`
+- `decimal` (default) - Uses decimal numbers for HTML entities (e.g., `&#169;`)
+- `hexadecimal` - Uses hexadecimal numbers for HTML entities (e.g., `&#xa9;`)
 
 ### decode(text, options)
 
-Decodes text replacing entities to characters. Unknown entities are left as is.
+Decodes text by replacing HTML entities with their corresponding characters. Unknown entities are preserved.
 
 ```js
-import {decode} from 'html-entities';
+import { decode } from 'html-entities';
 
+// Basic usage (defaults to HTML5)
 decode('&lt; &gt; &quot; &apos; &amp; &#169; &#8710;');
 // -> '< > " \' & © ∆'
 
-decode('&copy;', {level: 'html5'});
+// Specify encoding level
+decode('&copy;', { level: 'html5' });
 // -> '©'
 
-decode('&copy;', {level: 'xml'});
+// XML level doesn't recognize &copy;
+decode('&copy;', { level: 'xml' });
 // -> '&copy;'
 ```
 
-Options:
+#### Options
 
-#### level
+##### `level`
+- `all` or `html5` (default) - Uses HTML5 named references
+- `html4` - Uses HTML4 named references
+- `xml` - Uses XML named references
 
- * `all` alias to `html5` (default).
- * `html5` uses `HTML5` named references.
- * `html4` uses `HTML4` named references.
- * `xml` uses `XML` named references.
-
-#### scope
-
- * `body` emulates behavior of browser when parsing tag bodies: entities without semicolon are also replaced (default).
- * `attribute` emulates behavior of browser when parsing tag attributes: entities without semicolon are replaced when not followed by equality sign `=`.
- * `strict` ignores entities without semicolon.
+##### `scope`
+- `body` (default) - Emulates browser behavior when parsing tag bodies: entities without semicolon are also replaced
+- `attribute` - Emulates browser behavior when parsing tag attributes: entities without semicolon are replaced when not followed by `=`
+- `strict` - Ignores entities without semicolon
 
 ### decodeEntity(text, options)
 
-Decodes a single HTML entity. Unknown entitiy is left as is.
+Decodes a single HTML entity. Unknown entities are preserved.
 
 ```js
-import {decodeEntity} from 'html-entities';
+import { decodeEntity } from 'html-entities';
 
 decodeEntity('&lt;');
 // -> '<'
 
-decodeEntity('&copy;', {level: 'html5'});
+decodeEntity('&copy;', { level: 'html5' });
 // -> '©'
 
-decodeEntity('&copy;', {level: 'xml'});
+decodeEntity('&copy;', { level: 'xml' });
 // -> '&copy;'
 ```
 
-Options:
+#### Options
 
-#### level
+##### `level`
+- `all` or `html5` (default) - Uses HTML5 named references
+- `html4` - Uses HTML4 named references
+- `xml` - Uses XML named references
 
- * `all` alias to `html5` (default).
- * `html5` uses `HTML5` named references.
- * `html4` uses `HTML4` named references.
- * `xml` uses `XML` named references.
+## Package Size Comparison
 
-Package Size comparison
------------------------
+| Library | Size |
+|---------|------|
+| **html-entities** | 132 kB |
+| he | 124 kB |
+| entities | 540 kB |
 
-* `html-entities` - 132 kB
-* `entities` - 540 kB
-* `he` - 124 kB
+## Performance Comparison
 
-Performance comparison
-----------------------
-
-Statistically significant comparison with other libraries using `benchmark.js`.
-Results by this library are marked with `*`.
-The source code of the benchmark is available at `benchmark/benchmark.ts`.
+Results from benchmarks using `benchmark.js`. This library's results are marked with `*`.
+See benchmark source code at `benchmark/benchmark.ts`.
 
 ```
 Common
@@ -210,26 +213,16 @@ Escaping
         #4: entities.escape x 673,710 ops/sec ±1.30% (94 runs sampled)
 ```
 
-License
--------
+## License
 
 MIT
 
-Security contact information
-----------------------------
+## Security Contact Information
 
-To report a security vulnerability, please use the
-[Tidelift security contact](https://tidelift.com/security). Tidelift will
-coordinate the fix and disclosure.
+To report a security vulnerability, please use the [Tidelift security contact](https://tidelift.com/security). Tidelift will coordinate the fix and disclosure.
 
-`html-entities` for enterprise
-------------------------------
+## For Enterprise
 
-Available as part of the Tidelift Subscription
+Available as part of the Tidelift Subscription.
 
-The maintainers of `html-entities` and thousands of other packages are working with
-Tidelift to deliver commercial support and maintenance for the open source
-dependencies you use to build your applications. Save time, reduce risk, and
-improve code health, while paying the maintainers of the exact dependencies you
-use.
-[Learn more.](https://tidelift.com/subscription/pkg/npm-html-entities?utm_source=npm-html-entities&utm_medium=referral&utm_campaign=enterprise)
+The maintainers of `html-entities` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-html-entities?utm_source=npm-html-entities&utm_medium=referral&utm_campaign=enterprise)
