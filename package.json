@@ -64,7 +64,7 @@
     "test:dist:esm": "TEST_DIST=esm node --experimental-vm-modules node_modules/.bin/jest",
     "benchmark": "tsx benchmark/benchmark",
     "lint": "eslint src/**.ts",
-    "flow-type-gen": "flowgen --add-flow-header dist/esm/index.d.ts -o dist/commonjs/index.js.flow",
+    "flow-type-gen": "flowgen --add-flow-header dist/commonjs/index.d.ts -o dist/commonjs/index.js.flow",
     "remove-unused-declarations": "find dist -type f \\( -name '*.d.ts' ! -name index.d.ts \\) | xargs rm",
     "build": "rm -Rf dist && tsc --noEmit && tshy && tsc --declaration --emitDeclarationOnly -p tsconfig.json && tsc --emitDeclarationOnly -p tsconfig.esm.json && npm run remove-unused-declarations && npm run flow-type-gen",
     "prepublishOnly": "npm run build && npm run test && npm run test:dist",
@@ -77,7 +77,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test"
+      "pre-commit": "npm run lint && npm run test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "license": "MIT",
@@ -102,5 +103,20 @@
       }
     }
   },
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "subject-case": [
+        2,
+        "never",
+        [
+          "start-case",
+          "pascal-case"
+        ]
+      ]
+    }
+  }
 }
